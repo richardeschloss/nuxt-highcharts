@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Nuxt Community Discord
+    url: https://discord.nuxtjs.org/
+    about: Consider asking questions about the module here.
+  - name: nuxt-highcharts documentation
+    url: https://github.com/richardeschloss/nuxt-highcharts
+    about: Check our documentation before reporting issues or questions.
