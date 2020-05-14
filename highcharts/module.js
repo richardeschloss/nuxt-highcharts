@@ -1,7 +1,6 @@
 const { resolve } = require('path')
 
 module.exports = function (moduleOptions) {
-  console.log('HIGHCHARTS')
   const options = {
     ...this.options['highcharts'],
     ...moduleOptions

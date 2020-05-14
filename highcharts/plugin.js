@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Highcharts from 'highcharts'
 import HighchartsVue from 'highcharts-vue'
 
+Vue.use(HighchartsVue)
+
 const _pOptions = (function() {
   let _pluginOptions
   if (process.env.TEST === undefined) {
@@ -15,7 +17,6 @@ const _pOptions = (function() {
 })()
 
 const pluginOptions = _pOptions.get()
-console.log('options', pluginOptions)
 
 const Features = Object.freeze({
   exporting () {
@@ -44,18 +45,6 @@ const Features = Object.freeze({
   }
 })
 const SupportedFeatures = Object.keys(Features)
-
-// import stockInit from 'highcharts/modules/stock'
-// import mapInit from 'highcharts/modules/map'
-
-// import addWorldMap from '../static/worldmap' // TBD
-// stockInit(Highcharts)
-// mapInit(Highcharts)
-// addWorldMap(Highcharts)
-
-// stockInit(Highcharts)
-
-Vue.use(HighchartsVue)
 
 const NuxtHighcharts = Object.freeze({
   Highcharts,
