@@ -9,3 +9,5 @@ coverage
 highcharts
 pages
 test
+components
+nuxt.config.js

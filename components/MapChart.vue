@@ -1,18 +1,30 @@
 <template>
-  <highcharts :constructor-type="'mapChart'" :options="mapOptions" class="map"></highcharts>
+  <div>
+    <input
+      v-model="title"
+      class="form-control centered"
+    >
+    <highmap :options="chartOptions" :update="watchers" />
+  </div>
 </template>
 
 <script>
 
 export default {
-  data () {
+  data() {
     return {
-      mapOptions: {
+      title: 'Highmaps basic demo',
+      watchers: ['options.title']
+    }
+  },
+  computed: {
+    chartOptions() {
+      return {
         chart: {
           map: 'myMapName'
         },
         title: {
-          text: 'Highmaps basic demo'
+          text: this.title
         },
         subtitle: {
           text: 'Source map: <a href="http://code.highcharts.com/mapdata/custom/world.js">World, Miller projection, medium resolution</a>'
@@ -260,7 +272,4 @@ export default {
 }
 </script>
  <style scoped>
-.map {
-  min-height: 500px;
-}
  </style>

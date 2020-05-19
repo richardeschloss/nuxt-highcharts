@@ -6,5 +6,8 @@ module.exports = {
   },
   extends: [
     '@nuxtjs'
-  ]
+  ],
+  rules: {
+    "space-before-function-paren": ["error", "never"],
+  }
 }

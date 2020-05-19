@@ -6,3 +6,8 @@
 .page-leave-to {
   opacity: 0;
 }
+
+.centered {
+  text-align: center;
+  align-items: center;
+}

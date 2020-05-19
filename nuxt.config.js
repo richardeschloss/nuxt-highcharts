@@ -1,6 +1,6 @@
 module.exports = {
   env: {},
-  mode: 'spa', // 'universal',
+  mode: 'spa', // 'universal', // TBD: use highcharts *src* for ssr mode?
   /*
    ** Headers of the page
    */
@@ -36,16 +36,26 @@ module.exports = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['~/highcharts/module.js'],
+  modules: [
+    'bootstrap-vue/nuxt',
+    '~/highcharts/module.js',
+    'nuxt-socket-io'
+  ],
+  io: {
+    sockets: [{
+      name: 'main',
+      url: process.env.NODE_ENV === 'production' 
+        ? process.env.IO_HOST_PROD
+        : process.env.IO_HOST_DEV
+
+    }]
+  },
   highcharts: {
-    features: {
-      exporting: true,
-      stockChart: true,
-      mapChart: {
-        mapName: 'myMapName',
-        mapDataURL: '/worldmap.json'
-      }
-    }
+    exporting: true
+    // mapChart: {
+    //   mapName: 'myMapName',
+    //   mapDataURL: '/worldmap.json'
+    // }
   },
   /*
    ** Build configuration
@@ -54,11 +64,7 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend (config, ctx) {},
-    /* babel: {
-      cacheDirectory: true,
-      plugins: ['@babel/plugin-transform-runtime']
-    }, */
+    extend(config, ctx) {},
     parallel: true,
     cache: true,
     hardSource: true
