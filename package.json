@@ -1,12 +1,12 @@
 {
   "name": "nuxt-highcharts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Highcharts for Nuxt",
   "repository": "richardeschloss/nuxt-highcharts",
   "license": "MIT",
   "contributors": [
     {
-      "name": "Richard Schloss <richard.e.schloss@gmail.com>"
+      "name": "Richard Schloss <richard.e.schloss@protonmail.com>"
     }
   ],
   "files": [

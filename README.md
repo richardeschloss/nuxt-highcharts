@@ -8,6 +8,8 @@
 
 > Highcharts for Nuxt
 
+STATUS: demo works, but this readme will be updated soon. Tests are created but not complete and not plugged into CI / CD yet...
+
 [📖 **Release Notes**](./CHANGELOG.md)
 
 ## Setup
