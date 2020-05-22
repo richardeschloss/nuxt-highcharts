@@ -1,9 +1,9 @@
 # nuxt-highcharts
 
 [![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![Github Actions CI][github-actions-ci-src]][github-actions-ci-href]
-[![Codecov][codecov-src]][codecov-href]
+[![npm](https://img.shields.io/npm/dt/nuxt-highcharts)](https://www.npmjs.com/package/nuxt-highcharts)
+[![](https://gitlab.com/richardeschloss/nuxt-highcharts/badges/master/pipeline.svg)](https://gitlab.com/richardeschloss/nuxt-highcharts)
+[![](https://gitlab.com/richardeschloss/nuxt-highcharts/badges/master/coverage.svg)](https://gitlab.com/richardeschloss/nuxt-highcharts)
 [![License][license-src]][license-href]
 
 > Highcharts for Nuxt
