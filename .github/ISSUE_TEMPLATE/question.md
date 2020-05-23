@@ -1,3 +1,11 @@
+---
+name: Question
+about: Ask a question, I'll try to be helpful
+title: ''
+labels: question
+assignees: ''
+
+---
 
 <!--
 
