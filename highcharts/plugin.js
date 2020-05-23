@@ -17,19 +17,9 @@ const CONSTANTS = {
 
 const highchartsProps = Object.freeze({
   mapChart(props) {
-    const { mapChart } = pluginOptions
-    const { mapName, mapData, mapDataURL } = mapChart || {}
-    props.mapName = {
-      type: String,
-      default: mapName || ''
-    }
-    props.mapData = {
+    props.mapChart = {
       type: Object,
-      default: () => (mapData)
-    }
-    props.mapDataURL = {
-      type: String,
-      default: mapDataURL || ''
+      default: () => (pluginOptions.mapChart || {})
     }
   }
 })
@@ -45,22 +35,24 @@ const highchartsMods = Object.freeze({
     stockInit(HC)
     return { featureAdded: 'stockChart' }
   },
-  mapChart(HC, { mapName = 'myMapName' }) {
-    const mapData = require('@highcharts/map-collection/custom/world.geo.json')
+  mapChart(HC, mapChartOpts) {
+    const mapName = mapChartOpts.mapName || 'myMapName'
+    const mapData = mapChartOpts.mapData || require('@highcharts/map-collection/custom/world.geo.json')
     const { default: mapInit } = require('highcharts/modules/map')
     mapInit(HC)
-    Highcharts.maps[mapName] = mapData // TBD: may want to use prop??
+    Highcharts.maps[mapName] = mapData
     return { featureAdded: 'mapChart', maps: Highcharts.maps }
   }
 })
 
-function HighchartVue({
+function ComponentFactory({
   variant = 'chart'
 }) {
   const props = {
     options: {
       type: Object,
-      required: true
+      required: true,
+      default: () => (pluginOptions.chartOptions || {})
     },
     redraw: {
       type: Boolean,
@@ -75,7 +67,8 @@ function HighchartVue({
       default: () => ({})
     },
     highcharts: {
-      type: Object
+      type: Object,
+      default: () => (Highcharts)
     },
     exporting: {
       type: Boolean,
@@ -153,9 +146,9 @@ function HighchartVue({
       if (!this.options) {
         console.warn('Highchart Vue options missing for', variant)
       } else {
-        const HC = this.highcharts || Highcharts
+        const HC = this.highcharts // || Highcharts
         if (highchartsMods[variant]) {
-          highchartsMods[variant](HC, {}) // (opts) // use map props here...(opts == this.props
+          highchartsMods[variant](HC, this.props)
         }
 
         if (this.exporting) {
@@ -183,9 +176,9 @@ function HighchartVue({
   }
 }
 
-Vue.component('highchart', HighchartVue({ variant: 'chart' }))
-Vue.component('highstock', HighchartVue({ variant: 'stockChart' }))
-Vue.component('highmap', HighchartVue({ variant: 'mapChart' }))
+Vue.component('highchart', ComponentFactory({ variant: 'chart' }))
+Vue.component('highstock', ComponentFactory({ variant: 'stockChart' }))
+Vue.component('highmap', ComponentFactory({ variant: 'mapChart' }))
 
 function $highcharts(instOpts) {
   const svc = {}
@@ -198,6 +191,8 @@ Object.entries(CONSTANTS).forEach(([constant, obj]) => {
     value: Object.freeze(obj)
   })
 })
+
+export { ComponentFactory }
 
 export default function(context, inject) {
   inject('highcharts', $highcharts)
