@@ -1,6 +1,6 @@
 {
   "name": "nuxt-highcharts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Highcharts for Nuxt",
   "repository": "richardeschloss/nuxt-highcharts",
   "license": "MIT",
