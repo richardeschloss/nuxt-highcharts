@@ -1,0 +1,7 @@
+{
+  "all": false,
+  "reporter": ["html", "text"],
+  "exclude": ["node_modules"],
+  "include": ["highcharts/module.js", "highcharts/plugin.compiled.js"],
+  "extension": [".js"]
+}
