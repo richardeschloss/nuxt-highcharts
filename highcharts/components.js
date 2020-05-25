@@ -37,7 +37,6 @@ export default function ComponentFactory(
   const props = {
     options: {
       type: Object,
-      required: true,
       default: () => (dfltOptions.chartOptions || {})
     },
     redraw: {
@@ -69,9 +68,8 @@ export default function ComponentFactory(
     highchartsProps[variant](props, dfltOptions)
   }
   return {
-    template: '<div ref="chart"></div>',
     render: createElement => createElement('div', {
-      ref: 'chart'
+      ref: dfltOptions.ref || 'chart'
     }),
     props,
     computed: {
@@ -129,29 +127,25 @@ export default function ComponentFactory(
       }
     },
     mounted() {
-      if (!this.options) {
-        console.warn('Highchart Vue options missing for', variant)
-      } else {
-        const HC = this.highcharts
-        if (highchartsMods[variant]) {
-          highchartsMods[variant](HC, props)
-        }
-
-        if (this.exporting) {
-          highchartsMods.exporting(HC)
-        }
-        this.chart = HC[variant](
-          this.$refs.chart,
-          this.optsCopy,
-          (resp) => {
-            this.$emit('chartLoaded', resp)
-          }
-        )
-
-        this.unwatch = []
-        this.updateWatchers()
-        this.$watch('update', this.updateWatchers)
+      const HC = this.highcharts
+      if (highchartsMods[variant]) {
+        highchartsMods[variant](HC, props)
       }
+
+      if (this.exporting) {
+        highchartsMods.exporting(HC)
+      }
+      this.chart = HC[variant](
+        this.$refs.chart,
+        this.optsCopy,
+        (resp) => {
+          this.$emit('chartLoaded', resp)
+        }
+      )
+
+      this.unwatch = []
+      this.updateWatchers()
+      this.$watch('update', this.updateWatchers)
     },
     beforeDestroy() {
       // Destroy chart if exists

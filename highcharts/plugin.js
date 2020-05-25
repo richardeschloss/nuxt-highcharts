@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import ComponentFactory from './components' // TBD: test local deploy!!
+import ComponentFactory from './components'
 
 const pluginOptions = <%= JSON.stringify(options) %>
 
