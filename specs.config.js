@@ -22,6 +22,6 @@ export default {
       ]
     }
   },
-  tap: false, // true,
+  tap: false,
   verbose: true
 }

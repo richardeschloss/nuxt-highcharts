@@ -24,6 +24,27 @@ yarn add nuxt-highcharts # or npm install nuxt-highcharts
 - These are the module's *optional* dependencies:
   * [@highcharts/map-collection](https://www.npmjs.com/package/@highcharts/map-collection) - Collection of maps to use with Highmap. Please be aware of their [LICENSE](https://github.com/highcharts/map-collection-dist/blob/master/LICENSE.md). This module uses it strictly for demo purposes (and is non-profit, open-source). 
 
+
+NOTE: if you chose *not* to install the optional dependencies, you will most likely want to use webpack's [`ignorePlugin`](https://webpack.js.org/plugins/ignore-plugin/) to ignore the missing dependency. Otherwise, you'll be faced with either build warnings or errors.
+
+In nuxt.config, you would just need to add:
+
+```
+import webpack from 'webpack' // npm i -D webpack 
+
+module.exports = {
+  ...
+  build: {
+    plugins: [
+      new webpack.IgnorePlugin({
+        resourceRegExp: /\@highcharts\/map\-collection/
+      })
+    ],
+  }
+  ...
+}
+```
+
 2. Add `nuxt-highcharts` to the `modules` section of `nuxt.config.js`
 
 ```js
@@ -53,6 +74,7 @@ The above options can also be provided as *props* to the highcharts components. 
 
 ## Usage
 
+### Module
 The module adds a plugin which registers the following components:
 1. `highchart` - The basic chart component (but still very powerful! see the demo)
 2. `highstock` - The highstock chart component
@@ -78,7 +100,14 @@ The `highstock` and `highmap` components are simply variants of the basic `highc
 
 The `highmap` component also adds the following prop:
 * `mapChart` - S/A module options
-  
+
+The plugin will also inject `$highcharts` into the current context, so that on any component, you can access the following properties:
+* `$highcharts.chartTypes` - various chart types
+* `$highcharts.components` - the components registered by the plugin
+* `$highcharts.variants` - the variant names for the components; probably extraneous, but is used by the demo to auto generate the navbar links. 
+
+### Events
+* `chartLoaded` - emitted after successfully mounting any of the above components. It will provide an instance of the chart, so should you wish to use the Highchart API directly you can using that instance.
 
 ## Examples:
 
