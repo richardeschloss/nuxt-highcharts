@@ -82,6 +82,7 @@ export default function ComponentFactory(
         this.chart.setCaption(newValue)
       },
       'options.series'(newValue) {
+        if (!newValue) return
         this.chart.series.forEach((s, idx) => {
           s.update(newValue[idx])
         })
@@ -93,21 +94,23 @@ export default function ComponentFactory(
         this.chart.setTitle(newValue)
       },
       'options.yAxis'(newValue) {
-        if (Array.isArray(this.chart.yAxis)) {
+        if (!newValue) return
+        if (Array.isArray(newValue)) {
           this.chart.yAxis.forEach((a, idx) => {
             a.update(newValue[idx])
           })
         } else {
-          this.chart.yAxis.update(newValue)
+          this.chart.yAxis[0].update(newValue)
         }
       },
       'options.xAxis'(newValue) {
-        if (Array.isArray(this.chart.yAxis)) {
+        if (!newValue) return
+        if (Array.isArray(newValue)) {
           this.chart.xAxis.forEach((a, idx) => {
             a.update(newValue[idx])
           })
         } else {
-          this.chart.xAxis.update(newValue)
+          this.chart.xAxis[0].update(newValue)
         }
       },
       updateAll(newValue) {
@@ -116,7 +119,7 @@ export default function ComponentFactory(
       updateWatchers(watchers, oldWatchers) {
         this.unwatch.forEach((u) => u())
         this.unwatch = []
-        this.update.forEach((watcher = 'options') => {
+        this.update.forEach((watcher) => {
           const w = this[watcher] || this.updateAll
           if (watcher === 'options') {
             this.unwatch.push(this.$watch(watcher, this.updateAll, { deep: true }))
@@ -148,10 +151,7 @@ export default function ComponentFactory(
       this.$watch('update', this.updateWatchers)
     },
     beforeDestroy() {
-      // Destroy chart if exists
-      if (this.chart) {
-        this.chart.destroy()
-      }
+      this.chart.destroy()
     }
   }
 }
