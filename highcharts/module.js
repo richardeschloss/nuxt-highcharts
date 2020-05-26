@@ -6,10 +6,15 @@ module.exports = function (moduleOptions) {
     ...moduleOptions
   }
 
+  this.addTemplate({
+    src: resolve(__dirname, 'components.js'),
+    fileName: 'nuxt-highcharts/components.js'
+  })
+
   this.addPlugin({
     ssr: false,
     src: resolve(__dirname, 'plugin.js'),
-    fileName: 'nuxt-highcharts.js',
+    fileName: 'nuxt-highcharts/plugin.js',
     options
   })
 }

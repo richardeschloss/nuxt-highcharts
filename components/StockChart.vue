@@ -19,7 +19,7 @@
         <highstock :options="chartOptions" :update="watchers" />
       </div>
       <div class="col-3-auto col-md-3">
-        <b-table-lite striped thead-class="d-none" :items="Object.entries(quote)"/>
+        <b-table-lite striped thead-class="d-none" :items="quote ? Object.entries(quote) : []"/>
       </div>
     </div>
   </div>
@@ -37,13 +37,17 @@ export default {
   },
   computed: {
     companyName() {
-      return this.quote.companyName || '[fetching]' 
+      return this.quote !== undefined 
+        ? this.quote.companyName
+        : '[fetching]' 
     },
     quote() {
-      return this.itemsResp[0] || {}
+      return this.itemsResp !== null 
+        ? this.itemsResp[0]
+        : {}
     },
     ohlcv() {
-      if (this.itemsResp[1] === undefined) return []
+      if (this.itemsResp === null || this.itemsResp[1] === undefined) return []
 
       const ohlcv = this.itemsResp[1].history
         .map((entry) => {
@@ -105,6 +109,7 @@ export default {
     },
     updateChart(evt) {
       evt.target.blur()
+      this.chartOptions.series[0].data = []
       this.getItems()
       .then(() => {
         evt.target.focus()
