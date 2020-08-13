@@ -1,9 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+<<<<<<< HEAD
 ## [1.0.1] - 05-25-2020
 ### Added
 - Keywords to package.json
+=======
+## [1.0.1] - 08-13-2020
+### Changed
+- Removed postinstall script
+>>>>>>> Version bump + release notes
 
 ## [1.0.0] - 05-25-2020
 ### Added
