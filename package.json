@@ -27,8 +27,7 @@
     "test:specs:watch": "cross-env TEST=specs ava --config specs.config.js --color --watch",
     "test:e2e": "cross-env TEST=e2e ava --config e2e.config.js",
     "test:e2e:cov": "cross-env TEST=e2e nyc --no-clean ava --timeout=10m --config e2e.config.js",
-    "test:e2e:watch": "cross-env TEST=e2e ava --config e2e.config.js --color --watch",
-    "postinstall": " rm -rf node_modules/.cache/ .nuxt/"
+    "test:e2e:watch": "cross-env TEST=e2e ava --config e2e.config.js --color --watch"
   },
   "dependencies": {
     "highcharts": "^8.1.0"
