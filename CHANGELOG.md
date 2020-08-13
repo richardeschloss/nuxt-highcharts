@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 08-13-2020
+### Changed
+- Removed postinstall script
+
 ## [1.0.0] - 05-25-2020
 ### Added
 - Tests for 100% coverage
