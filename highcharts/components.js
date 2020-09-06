@@ -145,7 +145,7 @@ export default function ComponentFactory(
       }
       const chartConstructor = HC[variant] || HC['chart']
       this.chart = chartConstructor(
-        this.$refs.chart,
+        this.$refs[dfltOptions.ref || 'chart'],
         this.optsCopy,
         (resp) => {
           this.$emit('chartLoaded', resp)
