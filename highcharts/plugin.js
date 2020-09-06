@@ -16,6 +16,7 @@ const CONSTANTS = {
     { name: 'highchart', variant: 'chart' },
     { name: 'highstock', variant: 'stockChart' },
     { name: 'highmap', variant: 'mapChart' },
+    { name: 'sunburst', variant: 'sunburstChart' }
   ]
 }
 

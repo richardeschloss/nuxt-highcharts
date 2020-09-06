@@ -79,6 +79,7 @@ The module adds a plugin which registers the following components:
 1. `highchart` - The basic chart component (but still very powerful! see the demo)
 2. `highstock` - The highstock chart component
 3. `highmap` - The highmap chart component   
+4. `sunburst` - The sunburst chart
 
 The `highstock` and `highmap` components are simply variants of the basic `highchart` component which accepts the following props:
 

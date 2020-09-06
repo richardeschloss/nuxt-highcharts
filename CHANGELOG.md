@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.0.3] - 09-05-2020
+### Added
+- sunburst component
+
 ## [1.0.2] - 08-13-2020
 ### Changed
 - Removed postinstall script

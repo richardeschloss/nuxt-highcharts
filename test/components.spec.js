@@ -244,6 +244,13 @@ test('Map chart', (t) => {
   t.truthy(ctx.highcharts.mapChart)
 })
 
+test('Sunburst chart', (t) => {
+  const sunburstChart = ComponentFactory('sunburstChart')
+  const wrapper = shallowMount(sunburstChart)
+  const ctx = wrapper.vm
+  t.true(ctx.highcharts._modules.hasOwnProperty('modules/sunburst.src.js'))
+})
+
 test('Destroy chart if it exists', (t) => {
   const basicChart = ComponentFactory()
   const wrapper = shallowMount(basicChart, {})

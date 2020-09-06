@@ -27,7 +27,12 @@ const highchartsMods = Object.freeze({
     mapInit(HC)
     Highcharts.maps[mapName] = mapData
     return { featureAdded: 'mapChart', maps: Highcharts.maps }
-  }
+  },
+  sunburstChart(HC) {
+    const { default: sunburstInit } = require('highcharts/modules/sunburst')
+    sunburstInit(HC)
+    return { featureAdded: 'sunburstChart' }
+  },
 })
 
 export default function ComponentFactory(
@@ -138,8 +143,9 @@ export default function ComponentFactory(
       if (this.exporting) {
         highchartsMods.exporting(HC)
       }
-      this.chart = HC[variant](
-        this.$refs.chart,
+      const chartConstructor = HC[variant] || HC['chart']
+      this.chart = chartConstructor(
+        this.$refs[dfltOptions.ref || 'chart'],
         this.optsCopy,
         (resp) => {
           this.$emit('chartLoaded', resp)
