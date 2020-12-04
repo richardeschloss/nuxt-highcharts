@@ -21,6 +21,7 @@ const highchartsMods = Object.freeze({
     return { featureAdded: 'stockChart' }
   },
   mapChart(HC, { mapChart }) {
+    console.log('use mapChart', mapChart)
     const mapName = mapChart.mapName || 'myMapName'
     const mapData = mapChart.mapData || require('@highcharts/map-collection/custom/world.geo.json')
     const { default: mapInit } = require('highcharts/modules/map')
@@ -67,6 +68,10 @@ export default function ComponentFactory(
     update: {
       type: Array,
       default: () => ['options']
+    }, 
+    mapChart: {
+      type: Object,
+      default: () => (dfltOptions.mapChart || {})
     }
   }
   if (highchartsProps[variant]) {
@@ -137,7 +142,9 @@ export default function ComponentFactory(
     mounted() {
       const HC = this.highcharts
       if (highchartsMods[variant]) {
-        highchartsMods[variant](HC, props)
+        console.log('mapChart', this.mapChart)
+        const { mapChart } = this
+        highchartsMods[variant](HC, { mapChart }) //props)
       }
 
       if (this.exporting) {
