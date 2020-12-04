@@ -24,7 +24,8 @@ export default {
         // chartOptions.chart.map below 
         // (since that's where the library renders to)
         mapName: 'africa',
-        mapData: AfricaMapData
+        mapData: AfricaMapData,
+        // mapData: '/africa.geo.json' // Also works (if this is in static folder)
       },
       watchers: ['options.title']
     }

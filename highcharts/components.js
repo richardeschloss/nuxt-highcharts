@@ -12,15 +12,19 @@ const highchartsProps = Object.freeze({
 const highchartsData = Object.freeze({
   /**
    * Map chart data options
+   * Default map options requires @highcharts/map-collection installed
    * @param {object} opts
    * @param {string} [opts.mapName] - defaults to 'myMapName
-   * @param {object} [opts.mapData] - defaults to world geo map
+   * @param {object|string} [opts.mapData] - defaults to world geo map JSON
    */
   async mapChart({
     mapName = 'myMapName', 
     mapData = require('@highcharts/map-collection/custom/world.geo.json')
   }) {
-    Highcharts.maps[mapName] = mapData
+    if (typeof mapData === 'string') {
+      mapData = await fetch(mapData).then(r => r.json())
+    } 
+    Highcharts.maps[mapName] = { ...mapData }
   }
 })
 
@@ -149,13 +153,13 @@ export default function ComponentFactory(
         })
       }
     },
-    mounted() {
+    async mounted() {
       const HC = this.highcharts
       if (highchartsMods[variant]) {
         highchartsMods[variant](HC)
         if (highchartsData[variant]) {
           const hcDataCopy = { ...this[variant] }
-          highchartsData[variant](hcDataCopy)  
+          await highchartsData[variant](hcDataCopy)  
         }
       }
 
