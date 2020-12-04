@@ -9,6 +9,21 @@ const highchartsProps = Object.freeze({
   }
 })
 
+const highchartsData = Object.freeze({
+  /**
+   * Map chart data options
+   * @param {object} opts
+   * @param {string} [opts.mapName] - defaults to 'myMapName
+   * @param {object} [opts.mapData] - defaults to world geo map
+   */
+  async mapChart({
+    mapName = 'myMapName', 
+    mapData = require('@highcharts/map-collection/custom/world.geo.json')
+  }) {
+    Highcharts.maps[mapName] = mapData
+  }
+})
+
 const highchartsMods = Object.freeze({
   exporting(HC) {
     const { default: exportingInit } = require('highcharts/modules/exporting')
@@ -20,14 +35,10 @@ const highchartsMods = Object.freeze({
     stockInit(HC)
     return { featureAdded: 'stockChart' }
   },
-  mapChart(HC, { mapChart }) {
-    console.log('use mapChart', mapChart)
-    const mapName = mapChart.mapName || 'myMapName'
-    const mapData = mapChart.mapData || require('@highcharts/map-collection/custom/world.geo.json')
+  mapChart(HC) { 
     const { default: mapInit } = require('highcharts/modules/map')
     mapInit(HC)
-    Highcharts.maps[mapName] = mapData
-    return { featureAdded: 'mapChart', maps: Highcharts.maps }
+    return { featureAdded: 'mapChart' }
   },
   sunburstChart(HC) {
     const { default: sunburstInit } = require('highcharts/modules/sunburst')
@@ -68,13 +79,12 @@ export default function ComponentFactory(
     update: {
       type: Array,
       default: () => ['options']
-    }, 
-    mapChart: {
-      type: Object,
-      default: () => (dfltOptions.mapChart || {})
     }
   }
   if (highchartsProps[variant]) {
+    /* Extend the props if a certain module requires it 
+    *  E.g., mapChart
+    */
     highchartsProps[variant](props, dfltOptions)
   }
   return {
@@ -142,9 +152,11 @@ export default function ComponentFactory(
     mounted() {
       const HC = this.highcharts
       if (highchartsMods[variant]) {
-        console.log('mapChart', this.mapChart)
-        const { mapChart } = this
-        highchartsMods[variant](HC, { mapChart }) //props)
+        highchartsMods[variant](HC)
+        if (highchartsData[variant]) {
+          const hcDataCopy = { ...this[variant] }
+          highchartsData[variant](hcDataCopy)  
+        }
       }
 
       if (this.exporting) {

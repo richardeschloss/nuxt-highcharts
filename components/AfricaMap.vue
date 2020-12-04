@@ -1,30 +1,31 @@
 <template>
   <div>
-    Africa...
     <input
       v-model="title"
       class="form-control centered"
     >
-    <highmap 
+    <highmap
+      :mapChart="mapChart"
       :options="chartOptions" 
-      :update="watchers" 
+      :update="watchers"
     />
   </div>
 </template>
 
 <script>
-// import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json'
-// console.log('africa', AfricaMapData)
+import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json'
 
-// Create the chart
 export default {
   data() {
     return {
-      title: 'Highmaps basic demo',
-      // mapChart: {
-      //   mapName: 'africa',
-      //   mapData: AfricaMapData
-      // },
+      title: 'Highmaps (Africa) basic demo',
+      mapChart: {
+        // It's important for mapName to match exactly
+        // chartOptions.chart.map below 
+        // (since that's where the library renders to)
+        mapName: 'africa',
+        mapData: AfricaMapData
+      },
       watchers: ['options.title']
     }
   },
@@ -32,7 +33,7 @@ export default {
     chartOptions() {
       return {
         chart: {
-          map: 'myMapName'
+          map: 'africa'
         },
         title: {
           text: this.title

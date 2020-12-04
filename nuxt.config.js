@@ -1,5 +1,3 @@
-import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json'
-
 module.exports = {
   env: {},
   mode: 'spa', // 'universal', // TBD: use highcharts *src* for ssr mode?
@@ -54,11 +52,10 @@ module.exports = {
   },
   highcharts: {
     exporting: true,
-    mapChart: {
-      mapName: 'myMapName',
-      mapData: AfricaMapData
-      // mapDataURL: '/worldmap.json'
-    }
+    // mapChart: { // Also works
+    //   mapName: 'myMapName',
+    //   mapData: {importedjsonData...} 
+    // }
   },
   /*
    ** Build configuration
