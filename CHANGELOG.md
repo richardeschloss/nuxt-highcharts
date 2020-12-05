@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.0.5] - 12-04-2020
+### Added
+- module option to consume setOptions. This can also be a prop.
+- examples in nuxt.config to show how to get highcharts intellisense working (very helpful!)
+
 ## [1.0.4] - 12-04-2020
 ### Added
 - proper handling of the mapChart prop for highmap (so that different maps can be used)
