@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 12-04-2020
+### Added
+- proper handling of the mapChart prop for highmap (so that different maps can be used)
+
 ## [1.0.3] - 09-05-2020
 ### Added
 - sunburst component
