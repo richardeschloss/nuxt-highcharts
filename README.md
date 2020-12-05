@@ -64,11 +64,12 @@ module.exports = {
 
 ### Module Options
 
-* `chartOptions` - [Object] Default chart options to use for the highchart components.
+* `setOptions` - [Object] options to use globally, that get sent to [Highcharts.setOptions](https://api.highcharts.com/highcharts). Useful tip: import('highcharts/highcharts').Options to get intellisense suggestions 
+* `chartOptions` - [Object] Default chart options to use for the highchart components. These get wired to [Highcharts](https://api.highcharts.com/highcharts). Useful tip: import('highcharts/highcharts').Options to get intellisense suggestions
 * `exporting` - [Boolean] Enable/disable the exporting feature globally
 * `mapChart` - [Object] Default options for the [Highmap chart](https://www.highcharts.com/maps/demo)
   * `mapName` - [String] name to use for the mapChat, default: "myMapName"
-  * `mapData` - [Object] data to use for the map, default: [worldmap.json](https://unpkg.com/@highcharts/map-collection@1.1.3/custom/world.geo.json)
+  * `mapData` - [Object|string] data to use for the map, default: [world.geo.json](https://unpkg.com/@highcharts/map-collection@1.1.3/custom/world.geo.json). This can also be the JSON's url, which gets consumed by window.fetch
 
 The above options can also be provided as *props* to the highcharts components. When provided as props, the props will be used instead. The demo passes most options, except exporting, as props since different components will have different requirements.Some options you may want to be applied globally however.
 
@@ -84,6 +85,7 @@ The module adds a plugin which registers the following components:
 The `highstock` and `highmap` components are simply variants of the basic `highchart` component which accepts the following props:
 
 * `highcharts` - [Object] The `Highcharts` instance to use, default: `Highcharts` imported by the plugin (from node_modules/highcharts).
+* `setOptions` - [Object] the `setOptions` to use. Default: `moduleOptions.setOptions`.
 * `options` - [Object] The `chartOptions` to use, default: `moduleOptions.chartOptions`. (Heads up: Might get renamed to `chartOptions` someday)
 * `redraw` - [Boolean] Redraw option for [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update)
 * `oneToOne` - [Boolean] One-to-One option for [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update) 
