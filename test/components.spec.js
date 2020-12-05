@@ -285,3 +285,20 @@ test('Destroy chart if it exists', (t) => {
   ctx.$destroy() 
   t.is(Object.keys(ctx.chart).length, 0)
 })
+
+test('Set Options', (t) => {
+  const basicChart = ComponentFactory()
+  const wrapper = shallowMount(basicChart, {
+    propsData: {
+      setOptions: {
+        lang: {
+          decimalPoint: ','
+        }
+      }
+    }
+  })
+  const ctx = wrapper.vm  
+  // @ts-ignore
+  const opts = ctx.highcharts.getOptions()
+  t.is(opts.lang.decimalPoint, ',')
+})

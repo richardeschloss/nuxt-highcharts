@@ -83,6 +83,10 @@ export default function ComponentFactory(
     update: {
       type: Array,
       default: () => ['options']
+    },
+    setOptions: {
+      type: Object,
+      default: () => (dfltOptions.setOptions)
     }
   }
   if (highchartsProps[variant]) {
@@ -155,6 +159,10 @@ export default function ComponentFactory(
     },
     async mounted() {
       const HC = this.highcharts
+      if (this.setOptions) {
+        HC.setOptions(this.setOptions)
+      }
+
       if (highchartsMods[variant]) {
         highchartsMods[variant](HC)
         if (highchartsData[variant]) {
