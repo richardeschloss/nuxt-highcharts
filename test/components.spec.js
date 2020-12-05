@@ -244,7 +244,7 @@ test('Map chart', (t) => {
   t.truthy(ctx.highcharts.mapChart)
 })
 
-test.only('Map chart (mapData as a url)', async (t) => {
+test('Map chart (mapData as a url)', async (t) => {
   const mapChart = ComponentFactory('mapChart', dfltOptions)
   let fetched
   // @ts-ignore
