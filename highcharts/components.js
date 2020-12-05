@@ -22,7 +22,7 @@ const highchartsData = Object.freeze({
     mapData = require('@highcharts/map-collection/custom/world.geo.json')
   }) {
     if (typeof mapData === 'string') {
-      mapData = await fetch(mapData).then(r => r.json())
+      mapData = (await fetch(mapData)).json()
     } 
     Highcharts.maps[mapName] = { ...mapData }
   }
