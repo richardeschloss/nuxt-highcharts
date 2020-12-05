@@ -51,10 +51,10 @@ module.exports = {
     }]
   },
   highcharts: {
-    exporting: true
-    // mapChart: {
+    exporting: true,
+    // mapChart: { // Also works
     //   mapName: 'myMapName',
-    //   mapDataURL: '/worldmap.json'
+    //   mapData: {importedjsonData...} 
     // }
   },
   /*

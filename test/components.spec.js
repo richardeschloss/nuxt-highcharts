@@ -244,6 +244,33 @@ test('Map chart', (t) => {
   t.truthy(ctx.highcharts.mapChart)
 })
 
+test('Map chart (mapData as a url)', async (t) => {
+  const mapChart = ComponentFactory('mapChart', dfltOptions)
+  let fetched
+  // @ts-ignore
+  global.fetch = async function(url) {
+    fetched = url
+    return({
+      json: () => ({ title: 'testData' })
+    })
+  }
+  const wrapper = shallowMount(mapChart, {
+    propsData: {
+      mapChart: {
+        mapName: 'providedMap',
+        mapData: '/path/to/map.json'
+      }
+    }
+  })
+  const ctx = wrapper.vm
+  await nextTickP(ctx)
+  t.is(fetched, '/path/to/map.json')
+  // @ts-ignore
+  t.truthy(ctx.highcharts.maps['providedMap'])
+  // @ts-ignore
+  t.is(ctx.highcharts.maps['providedMap'].title, 'testData')
+})
+
 test('Sunburst chart', (t) => {
   const sunburstChart = ComponentFactory('sunburstChart')
   const wrapper = shallowMount(sunburstChart)

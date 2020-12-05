@@ -9,6 +9,25 @@ const highchartsProps = Object.freeze({
   }
 })
 
+const highchartsData = Object.freeze({
+  /**
+   * Map chart data options
+   * Default map options requires @highcharts/map-collection installed
+   * @param {object} opts
+   * @param {string} [opts.mapName] - defaults to 'myMapName
+   * @param {object|string} [opts.mapData] - defaults to world geo map JSON
+   */
+  async mapChart({
+    mapName = 'myMapName', 
+    mapData = require('@highcharts/map-collection/custom/world.geo.json')
+  }) {
+    if (typeof mapData === 'string') {
+      mapData = await (await fetch(mapData)).json()
+    }
+    Highcharts.maps[mapName] = { ...mapData }
+  }
+})
+
 const highchartsMods = Object.freeze({
   exporting(HC) {
     const { default: exportingInit } = require('highcharts/modules/exporting')
@@ -20,13 +39,10 @@ const highchartsMods = Object.freeze({
     stockInit(HC)
     return { featureAdded: 'stockChart' }
   },
-  mapChart(HC, { mapChart }) {
-    const mapName = mapChart.mapName || 'myMapName'
-    const mapData = mapChart.mapData || require('@highcharts/map-collection/custom/world.geo.json')
+  mapChart(HC) { 
     const { default: mapInit } = require('highcharts/modules/map')
     mapInit(HC)
-    Highcharts.maps[mapName] = mapData
-    return { featureAdded: 'mapChart', maps: Highcharts.maps }
+    return { featureAdded: 'mapChart' }
   },
   sunburstChart(HC) {
     const { default: sunburstInit } = require('highcharts/modules/sunburst')
@@ -70,6 +86,9 @@ export default function ComponentFactory(
     }
   }
   if (highchartsProps[variant]) {
+    /* Extend the props if a certain module requires it 
+    *  E.g., mapChart
+    */
     highchartsProps[variant](props, dfltOptions)
   }
   return {
@@ -134,10 +153,14 @@ export default function ComponentFactory(
         })
       }
     },
-    mounted() {
+    async mounted() {
       const HC = this.highcharts
       if (highchartsMods[variant]) {
-        highchartsMods[variant](HC, props)
+        highchartsMods[variant](HC)
+        if (highchartsData[variant]) {
+          const hcDataCopy = { ...this[variant] }
+          await highchartsData[variant](hcDataCopy)
+        }
       }
 
       if (this.exporting) {
