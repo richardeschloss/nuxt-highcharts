@@ -244,19 +244,17 @@ test('Map chart', (t) => {
   t.truthy(ctx.highcharts.mapChart)
 })
 
-test('Map chart (mapData as a url)', async (t) => {
+test.only('Map chart (mapData as a url)', async (t) => {
   const mapChart = ComponentFactory('mapChart', dfltOptions)
   let fetched
   // @ts-ignore
-  global.fetch = function(url) {
+  global.fetch = async function(url) {
     fetched = url
-    return {
-      json() {
-        return { title: 'testData' } 
-      }
-    }
+    return({
+      json: () => ({ title: 'testData' })
+    })
   }
-  const wrapper = await shallowMount(mapChart, {
+  const wrapper = shallowMount(mapChart, {
     propsData: {
       mapChart: {
         mapName: 'providedMap',
@@ -265,6 +263,7 @@ test('Map chart (mapData as a url)', async (t) => {
     }
   })
   const ctx = wrapper.vm
+  await nextTickP(ctx)
   t.is(fetched, '/path/to/map.json')
   // @ts-ignore
   t.truthy(ctx.highcharts.maps['providedMap'])

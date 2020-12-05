@@ -22,8 +22,8 @@ const highchartsData = Object.freeze({
     mapData = require('@highcharts/map-collection/custom/world.geo.json')
   }) {
     if (typeof mapData === 'string') {
-      mapData = (await fetch(mapData)).json()
-    } 
+      mapData = await (await fetch(mapData)).json()
+    }
     Highcharts.maps[mapName] = { ...mapData }
   }
 })
@@ -159,7 +159,7 @@ export default function ComponentFactory(
         highchartsMods[variant](HC)
         if (highchartsData[variant]) {
           const hcDataCopy = { ...this[variant] }
-          await highchartsData[variant](hcDataCopy)  
+          await highchartsData[variant](hcDataCopy)
         }
       }
 
