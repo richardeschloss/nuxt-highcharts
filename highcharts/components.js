@@ -51,6 +51,42 @@ const highchartsMods = Object.freeze({
   },
 })
 
+// --- TBD  --- //
+function camelCase(str) {
+  return str
+    .replace(/[\s\-](.)/g, function($1) {
+      return $1.toUpperCase()
+    })
+    .replace(/\s/g, '')
+    .replace(/^(.)/, function($1) {
+      return $1.toLowerCase()
+    })
+    .replace(/[^\w\s]/gi, '')
+}
+
+// TBD inject in plugin?
+// function populateModules() {
+  const { readdirSync } = require('fs')
+  const hcMods = readdirSync('node_modules/highcharts/modules')
+    .filter((f) => f.endsWith('.js') && !f.endsWith('.src.js'))
+    .map((f) => {
+      const fName = f.replace('.js', '')
+      const name = camelCase(fName)
+      const initializer = (HC) => {
+        const { default: init } = require('highcharts/modules/' + fName)
+        init(HC)
+      }
+      return {
+        name, // may be overkill
+        fName,
+        initializer
+      }
+    })
+  
+  // console.log('mods', mods)
+// }
+// populateModules()
+
 export default function ComponentFactory(
   variant = 'chart',
   dfltOptions = {}
@@ -87,6 +123,10 @@ export default function ComponentFactory(
     setOptions: {
       type: Object,
       default: () => (dfltOptions.setOptions)
+    },
+    modules: {
+      type: Array,
+      default: () => []
     }
   }
   if (highchartsProps[variant]) {
@@ -157,11 +197,21 @@ export default function ComponentFactory(
         })
       }
     },
+    // beforeCreate maybe init the hcMods?
+    // if (hcMods === undefined) { ... initHcMods }
     async mounted() {
       const HC = this.highcharts
       if (this.setOptions) {
         HC.setOptions(this.setOptions)
       }
+
+      // --- TBD (Initialize modules)
+      this.modules.forEach((modName) => {
+        const fnd = hcMods.find(({ fName }) => fName === modName)
+        fnd.initializer(HC)
+        // if (highchartsData[variant]) { ... }
+      })
+      // ---
 
       if (highchartsMods[variant]) {
         highchartsMods[variant](HC)

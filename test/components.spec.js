@@ -302,3 +302,18 @@ test('Set Options', (t) => {
   const opts = ctx.highcharts.getOptions()
   t.is(opts.lang.decimalPoint, ',')
 })
+
+test.only('Modules (tbd)', (t) => {
+  const basicChart = ComponentFactory()
+  const modules = ['heatmap', 'map']
+  const wrapper = shallowMount(basicChart, {
+    propsData: { modules }
+  })
+  const ctx = wrapper.vm
+  modules.forEach((mod) => {
+    // @ts-ignore
+    t.true(ctx.highcharts._modules.hasOwnProperty(`masters/modules/${mod}.src.js`))
+  })
+
+  t.pass()
+})
