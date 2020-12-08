@@ -9,6 +9,7 @@ const highchartsProps = Object.freeze({
   }
 })
 
+// To be deprecated:
 const highchartsData = Object.freeze({
   /**
    * Map chart data options
@@ -28,6 +29,7 @@ const highchartsData = Object.freeze({
   }
 })
 
+// To be deprecated:
 const highchartsMods = Object.freeze({
   exporting(HC) {
     const { default: exportingInit } = require('highcharts/modules/exporting')
@@ -51,41 +53,52 @@ const highchartsMods = Object.freeze({
   },
 })
 
-// --- TBD  --- //
-function camelCase(str) {
-  return str
-    .replace(/[\s\-](.)/g, function($1) {
-      return $1.toUpperCase()
-    })
-    .replace(/\s/g, '')
-    .replace(/^(.)/, function($1) {
-      return $1.toLowerCase()
-    })
-    .replace(/[^\w\s]/gi, '')
+// -- v1.0.6:
+const hcProps = {}
+// TBD: also check if ENV is testing (or similar)
+// then remember to istanbul ignore this part for cov.
+if (!require.context) {
+  require.context = () => {
+    console.log('mocked for testing')
+  }
 }
-
-// TBD inject in plugin?
-// function populateModules() {
-  const { readdirSync } = require('fs')
-  const hcMods = readdirSync('node_modules/highcharts/modules')
-    .filter((f) => f.endsWith('.js') && !f.endsWith('.src.js'))
-    .map((f) => {
-      const fName = f.replace('.js', '')
-      const name = camelCase(fName)
-      const initializer = (HC) => {
-        const { default: init } = require('highcharts/modules/' + fName)
-        init(HC)
-      }
+// @ts-ignore  
+const r = require.context('highcharts/modules', true, /\.js$/)
+const hcMods = r.keys()
+  .filter((k) => !k.endsWith('.src.js'))
+  .map((fName) => {
+    const name = fName.replace(/(\.\/|\.js)/g, '')
+    hcProps[name] = (dfltOptions) => {
       return {
-        name, // may be overkill
-        fName,
-        initializer
+        type: Object,
+        default: () => (dfltOptions[name] || {})
       }
-    })
-  
-  // console.log('mods', mods)
-// }
-// populateModules()
+    }
+    return { 
+      name,
+      initializer: (HC) => r(fName)(HC)
+    }
+  })
+
+const hcData = Object.freeze({
+  /**
+   * Map chart data options
+   * Default map options requires @highcharts/map-collection installed
+   * @param {object} opts
+   * @param {string} [opts.mapName] - defaults to 'myMapName'
+   * @param {object|string} [opts.mapData] - defaults to world geo map JSON
+   */
+  async map({
+    mapName = 'myMapName', 
+    mapData = require('@highcharts/map-collection/custom/world.geo.json')
+  }) {
+    if (typeof mapData === 'string') {
+      mapData = await (await fetch(mapData)).json()
+    }
+    Highcharts.maps[mapName] = { ...mapData }
+  }
+})
+// ---
 
 export default function ComponentFactory(
   variant = 'chart',
@@ -129,12 +142,17 @@ export default function ComponentFactory(
       default: () => []
     }
   }
-  if (highchartsProps[variant]) {
+  if (highchartsProps[variant]) { // <-- to be deprecated
     /* Extend the props if a certain module requires it 
     *  E.g., mapChart
     */
     highchartsProps[variant](props, dfltOptions)
   }
+  Object.entries(hcProps).forEach(([prop, fn]) => {
+    if (props[prop] === undefined && hcData[prop]) {
+      props[prop] = fn(dfltOptions)
+    }
+  })
   return {
     render: createElement => createElement('div', {
       ref: dfltOptions.ref || 'chart'
@@ -146,6 +164,17 @@ export default function ComponentFactory(
       }
     },
     methods: {
+      constructChart() {
+        const HC = this.highcharts
+        const chartConstructor = HC[variant] || HC['chart']
+        this.chart = chartConstructor(
+          this.$refs[dfltOptions.ref || 'chart'],
+          this.optsCopy,
+          (resp) => {
+            this.$emit('chartLoaded', resp)
+          }
+        )
+      },
       'options.caption'(newValue) {
         this.chart.setCaption(newValue)
       },
@@ -197,22 +226,31 @@ export default function ComponentFactory(
         })
       }
     },
-    // beforeCreate maybe init the hcMods?
-    // if (hcMods === undefined) { ... initHcMods }
     async mounted() {
       const HC = this.highcharts
       if (this.setOptions) {
         HC.setOptions(this.setOptions)
       }
 
-      // --- TBD (Initialize modules)
-      this.modules.forEach((modName) => {
-        const fnd = hcMods.find(({ fName }) => fName === modName)
-        fnd.initializer(HC)
-        // if (highchartsData[variant]) { ... }
+      // --- v1.0.6: TBD (Initialize modules)
+      this.modules.forEach(async (modName) => {
+        const fnd = hcMods.find(({ name }) => name === modName)
+        await fnd.initializer(HC)
+        if (HC[modName + 'Chart']) {
+          variant = modName + 'Chart'
+        }
+        if (hcData[modName]) {
+          const hcDataCopy = { ...this[modName] }
+          await hcData[modName](hcDataCopy)
+        }
+
+        if (!this.chart) {
+          this.constructChart()
+        }
       })
       // ---
 
+      // To be deprecated:
       if (highchartsMods[variant]) {
         highchartsMods[variant](HC)
         if (highchartsData[variant]) {
@@ -221,17 +259,14 @@ export default function ComponentFactory(
         }
       }
 
+      // To be deprecated:
       if (this.exporting) {
         highchartsMods.exporting(HC)
       }
-      const chartConstructor = HC[variant] || HC['chart']
-      this.chart = chartConstructor(
-        this.$refs[dfltOptions.ref || 'chart'],
-        this.optsCopy,
-        (resp) => {
-          this.$emit('chartLoaded', resp)
-        }
-      )
+
+      if (this.modules.length === 0) {
+        this.constructChart()
+      }
 
       this.unwatch = []
       this.updateWatchers()

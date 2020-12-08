@@ -303,7 +303,7 @@ test('Set Options', (t) => {
   t.is(opts.lang.decimalPoint, ',')
 })
 
-test.only('Modules (tbd)', (t) => {
+test.only('Modules (tbd)', (t) => { // TBD: update...(mock require.context)
   const basicChart = ComponentFactory()
   const modules = ['heatmap', 'map']
   const wrapper = shallowMount(basicChart, {
@@ -315,5 +315,6 @@ test.only('Modules (tbd)', (t) => {
     t.true(ctx.highcharts._modules.hasOwnProperty(`masters/modules/${mod}.src.js`))
   })
 
-  t.pass()
+  // @ts-ignore
+  t.truthy(ctx.highcharts.maps['myMapName'])
 })
