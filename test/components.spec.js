@@ -11,26 +11,32 @@ const dfltOptions = {
     chart: {
       type: 'spline'
     },
-    xAxis: [{
-      title: {
-        text: 'xAxis title'
+    xAxis: [
+      {
+        title: {
+          text: 'xAxis title'
+        }
       }
-    }],
-    yAxis: [{
-      title: {
-        text: 'Values'
+    ],
+    yAxis: [
+      {
+        title: {
+          text: 'Values'
+        }
       }
-    }],
+    ],
     title: {
       text: `Some title`
     },
     subtitle: {
       text: `Some subtitle`
     },
-    series: [{
-      name: 'My series',
-      data: [0, 1, 2, 3, 4]
-    }]
+    series: [
+      {
+        name: 'My series',
+        data: [0, 1, 2, 3, 4]
+      }
+    ]
   }
 }
 
@@ -42,44 +48,50 @@ const changedOptions = {
     chart: {
       type: 'area'
     },
-    xAxis: [{
-      title: {
-        text: 'xAxis title changed'
+    xAxis: [
+      {
+        title: {
+          text: 'xAxis title changed'
+        }
       }
-    }],
-    yAxis: [{
-      title: {
-        text: 'changed Values'
+    ],
+    yAxis: [
+      {
+        title: {
+          text: 'changed Values'
+        }
       }
-    }],
+    ],
     title: {
       text: `changed title`
     },
     subtitle: {
       text: `changed subtitle`
     },
-    series: [{
-      name: 'changed series',
-      data: [4, 3, 2, 1, 0]
-    }]
+    series: [
+      {
+        name: 'changed series',
+        data: [4, 3, 2, 1, 0]
+      }
+    ]
   }
 }
 
-test('Basic chart, empty opts', (t) => {
+test('Basic chart, empty opts', t => {
   const basicChart = ComponentFactory('chart', {})
   const wrapper = shallowMount(basicChart, {})
   const ctx = wrapper.vm
   t.truthy(ctx.chart)
 })
 
-test('Basic chart, exporting enabled', (t) => {
+test('Basic chart, exporting enabled', t => {
   const basicChart = ComponentFactory('chart', { exporting: true })
   const wrapper = shallowMount(basicChart, {})
   const ctx = wrapper.vm
   t.true(ctx.exporting)
 })
 
-test('Basic chart, default options', async (t) => {
+test('Basic chart, default options', async t => {
   const basicChart = ComponentFactory('chart', dfltOptions)
   const wrapper = shallowMount(basicChart, {})
   const ctx = wrapper.vm
@@ -88,16 +100,18 @@ test('Basic chart, default options', async (t) => {
   t.is(ctx.chart.title.textStr, ctx.options.title.text)
 })
 
-test('Basic chart, specified watchers', async (t) => {
+test('Basic chart, specified watchers', async t => {
   const basicChart = ComponentFactory('chart', dfltOptions)
-  const watchers = Object.keys(basicChart.methods).filter((m) => m.includes('options'))
+  const watchers = Object.keys(basicChart.methods).filter(m =>
+    m.includes('options')
+  )
   const optsCopy = { ...changedOptions.chartOptions }
   const wrapper = shallowMount(basicChart, {
     propsData: {
       update: watchers
     }
   })
-  
+
   const ctx = wrapper.vm
   wrapper.setProps({
     options: optsCopy
@@ -111,9 +125,11 @@ test('Basic chart, specified watchers', async (t) => {
   t.is(ctx.chart.yAxis[0].axisTitle.textStr, ctx.options.yAxis[0].title.text)
 })
 
-test('Basic chart, specified watchers (mixed types)', async (t) => {
+test('Basic chart, specified watchers (mixed types)', async t => {
   const basicChart = ComponentFactory('chart', dfltOptions)
-  const watchers = Object.keys(basicChart.methods).filter((m) => m.includes('options'))
+  const watchers = Object.keys(basicChart.methods).filter(m =>
+    m.includes('options')
+  )
   const optsCopy = { ...changedOptions.chartOptions }
   const wrapper = shallowMount(basicChart, {
     propsData: {
@@ -131,7 +147,7 @@ test('Basic chart, specified watchers (mixed types)', async (t) => {
         title: {
           text: 'changed Values again'
         }
-      },
+      }
     }
   })
 
@@ -141,7 +157,7 @@ test('Basic chart, specified watchers (mixed types)', async (t) => {
   t.falsy(ctx.chart.yAxis.axisTitle)
 })
 
-test('Basic chart, specified watchers (xAxis and yAxis as objects)', async (t) => {
+test('Basic chart, specified watchers (xAxis and yAxis as objects)', async t => {
   const basicChart = ComponentFactory('chart', {
     chartOptions: {
       xAxis: {
@@ -156,7 +172,9 @@ test('Basic chart, specified watchers (xAxis and yAxis as objects)', async (t) =
       }
     }
   })
-  const watchers = Object.keys(basicChart.methods).filter((m) => m.includes('options'))
+  const watchers = Object.keys(basicChart.methods).filter(m =>
+    m.includes('options')
+  )
   const wrapper = shallowMount(basicChart, {
     propsData: {
       update: watchers
@@ -176,15 +194,17 @@ test('Basic chart, specified watchers (xAxis and yAxis as objects)', async (t) =
     }
   }
   wrapper.setProps({ options: newOpts })
-  
+
   await nextTickP(ctx)
   t.is(ctx.chart.xAxis[0].options.title.text, newOpts.xAxis.title.text)
   t.is(ctx.chart.yAxis[0].options.title.text, newOpts.yAxis.title.text)
 })
 
-test('Basic chart, specified watchers (new values undefined)', async (t) => {
+test('Basic chart, specified watchers (new values undefined)', async t => {
   const basicChart = ComponentFactory('chart', dfltOptions)
-  const watchers = Object.keys(basicChart.methods).filter((m) => m.includes('options'))
+  const watchers = Object.keys(basicChart.methods).filter(m =>
+    m.includes('options')
+  )
   const wrapper = shallowMount(basicChart, {
     propsData: {
       update: watchers
@@ -192,15 +212,23 @@ test('Basic chart, specified watchers (new values undefined)', async (t) => {
   })
   const ctx = wrapper.vm
   wrapper.setProps({ options: {} })
-  
+
   await nextTickP(ctx)
-  t.is(ctx.chart.xAxis[0].options.title.text, dfltOptions.chartOptions.xAxis[0].title.text)
-  t.is(ctx.chart.yAxis[0].options.title.text, dfltOptions.chartOptions.yAxis[0].title.text)
+  t.is(
+    ctx.chart.xAxis[0].options.title.text,
+    dfltOptions.chartOptions.xAxis[0].title.text
+  )
+  t.is(
+    ctx.chart.yAxis[0].options.title.text,
+    dfltOptions.chartOptions.yAxis[0].title.text
+  )
 })
 
-test('Basic chart, nonexistant watchers', async (t) => {
+test('Basic chart, nonexistant watchers', async t => {
   const basicChart = ComponentFactory('chart', dfltOptions)
-  const watchers = Object.keys(basicChart.methods).filter((m) => m.includes('options'))
+  const watchers = Object.keys(basicChart.methods).filter(m =>
+    m.includes('options')
+  )
   const wrapper = shallowMount(basicChart, {
     propsData: {
       update: ['nonexistant', 'chart']
@@ -211,48 +239,54 @@ test('Basic chart, nonexistant watchers', async (t) => {
     title: { text: 'new text' }
   }
   wrapper.setProps({ options: newOpts })
-  
-  await nextTickP(ctx)
-  t.is(ctx.chart.xAxis[0].options.title.text, dfltOptions.chartOptions.xAxis[0].title.text)
-  t.is(ctx.chart.yAxis[0].options.title.text, dfltOptions.chartOptions.yAxis[0].title.text)
 
-  wrapper.setProps({ 
+  await nextTickP(ctx)
+  t.is(
+    ctx.chart.xAxis[0].options.title.text,
+    dfltOptions.chartOptions.xAxis[0].title.text
+  )
+  t.is(
+    ctx.chart.yAxis[0].options.title.text,
+    dfltOptions.chartOptions.yAxis[0].title.text
+  )
+
+  wrapper.setProps({
     update: []
   })
   await nextTickP(ctx)
   t.is(ctx.unwatch.length, 0)
 })
 
-test('Basic chart generated as default', (t) => {
+test('Basic chart generated as default', t => {
   const basicChart = ComponentFactory()
   const wrapper = shallowMount(basicChart, {})
   const ctx = wrapper.vm
   t.is(ctx.highcharts.product, 'Highcharts')
 })
 
-test('Stock chart', (t) => {
+test('Stock chart', t => {
   const stockChart = ComponentFactory('stockChart', dfltOptions)
   const wrapper = shallowMount(stockChart, {})
   const ctx = wrapper.vm
   t.truthy(ctx.highcharts.StockChart)
 })
 
-test('Map chart', (t) => {
+test('Map chart', t => {
   const mapChart = ComponentFactory('mapChart', dfltOptions)
   const wrapper = shallowMount(mapChart, {})
   const ctx = wrapper.vm
   t.truthy(ctx.highcharts.mapChart)
 })
 
-test('Map chart (mapData as a url)', async (t) => {
+test('Map chart (mapData as a url)', async t => {
   const mapChart = ComponentFactory('mapChart', dfltOptions)
   let fetched
   // @ts-ignore
   global.fetch = async function(url) {
     fetched = url
-    return({
+    return {
       json: () => ({ title: 'testData' })
-    })
+    }
   }
   const wrapper = shallowMount(mapChart, {
     propsData: {
@@ -266,27 +300,27 @@ test('Map chart (mapData as a url)', async (t) => {
   await nextTickP(ctx)
   t.is(fetched, '/path/to/map.json')
   // @ts-ignore
-  t.truthy(ctx.highcharts.maps['providedMap'])
+  t.truthy(ctx.highcharts.maps.providedMap)
   // @ts-ignore
-  t.is(ctx.highcharts.maps['providedMap'].title, 'testData')
+  t.is(ctx.highcharts.maps.providedMap.title, 'testData')
 })
 
-test('Sunburst chart', (t) => {
+test('Sunburst chart', t => {
   const sunburstChart = ComponentFactory('sunburstChart')
   const wrapper = shallowMount(sunburstChart)
   const ctx = wrapper.vm
   t.true(ctx.highcharts._modules.hasOwnProperty('modules/sunburst.src.js'))
 })
 
-test('Destroy chart if it exists', (t) => {
+test('Destroy chart if it exists', t => {
   const basicChart = ComponentFactory()
   const wrapper = shallowMount(basicChart, {})
   const ctx = wrapper.vm
-  ctx.$destroy() 
+  ctx.$destroy()
   t.is(Object.keys(ctx.chart).length, 0)
 })
 
-test('Set Options', (t) => {
+test('Set Options', t => {
   const basicChart = ComponentFactory()
   const wrapper = shallowMount(basicChart, {
     propsData: {
@@ -297,24 +331,27 @@ test('Set Options', (t) => {
       }
     }
   })
-  const ctx = wrapper.vm  
+  const ctx = wrapper.vm
   // @ts-ignore
   const opts = ctx.highcharts.getOptions()
   t.is(opts.lang.decimalPoint, ',')
 })
 
-test.only('Modules (tbd)', (t) => { // TBD: update...(mock require.context)
+test.only('Modules (tbd)', t => {
+  // TBD: update...(mock require.context)
   const basicChart = ComponentFactory()
   const modules = ['heatmap', 'map']
   const wrapper = shallowMount(basicChart, {
     propsData: { modules }
   })
   const ctx = wrapper.vm
-  modules.forEach((mod) => {
+  modules.forEach(mod => {
     // @ts-ignore
-    t.true(ctx.highcharts._modules.hasOwnProperty(`masters/modules/${mod}.src.js`))
+    t.true(
+      ctx.highcharts._modules.hasOwnProperty(`masters/modules/${mod}.src.js`)
+    )
   })
 
   // @ts-ignore
-  t.truthy(ctx.highcharts.maps['myMapName'])
+  t.truthy(ctx.highcharts.maps.myMapName)
 })

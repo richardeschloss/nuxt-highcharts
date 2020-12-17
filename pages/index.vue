@@ -12,8 +12,8 @@ import Navbar from '@/components/Navbar.vue'
 
 export default {
   components: {
-    Navbar
-  }
+    Navbar,
+  },
 }
 </script>
 
@@ -26,10 +26,11 @@ export default {
   color: #2c3e50;
   margin: 0 auto;
   /* margin-top: 60px;*/
-  width: 70%; 
+  width: 70%;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 </style>

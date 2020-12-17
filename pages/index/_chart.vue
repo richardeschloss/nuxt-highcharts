@@ -21,7 +21,7 @@ export default {
     StockChart,
     MapChart,
     QuickMods,
-    SunburstChart
-  }
+    SunburstChart,
+  },
 }
 </script>
