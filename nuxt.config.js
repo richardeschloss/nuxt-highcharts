@@ -16,9 +16,9 @@ const chartOptions = { // <-- we also get intellisense correctly.
 // while the chartOptions would get passed to the *Highcharts.chart* method
 
 module.exports = {
+  telemetry: false,
   env: {},
-  ssr: true, //, 
-  // mode: 'spa', // 'universal', // TBD: use highcharts *src* for ssr mode?
+  ssr: true,
   /*
    ** Headers of the page
    */
@@ -50,7 +50,6 @@ module.exports = {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [],
   /*
    ** Nuxt.js modules
    */

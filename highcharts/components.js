@@ -55,16 +55,12 @@ const highchartsMods = Object.freeze({
 
 // -- v1.0.6:
 const hcProps = {}
-// TBD: also check if ENV is testing (or similar)
 // then remember to istanbul ignore this part for cov.
-if (!require.context) {
-  require.context = () => {
-    console.log('mocked for testing')
-  }
-}
-// @ts-ignore  
-const r = require.context('highcharts/modules', true, /\.js$/)
-const hcMods = r.keys()
+const hcModsContext = !process.env.TEST
+  ? require.context('highcharts/modules', true, /\.js$/)
+  : { keys: () => [] }
+  
+const hcMods = hcModsContext.keys()
   .filter((k) => !k.endsWith('.src.js'))
   .map((fName) => {
     const name = fName.replace(/(\.\/|\.js)/g, '')
@@ -76,7 +72,7 @@ const hcMods = r.keys()
     }
     return { 
       name,
-      initializer: (HC) => r(fName)(HC)
+      initializer: (HC) => hcModsContext(fName)(HC)
     }
   })
 
