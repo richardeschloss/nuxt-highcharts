@@ -275,7 +275,7 @@ test('Sunburst chart', (t) => {
   const sunburstChart = ComponentFactory('sunburstChart')
   const wrapper = shallowMount(sunburstChart)
   const ctx = wrapper.vm
-  t.true(ctx.highcharts._modules.hasOwnProperty('modules/sunburst.src.js'))
+  t.true(ctx.highcharts._modules.hasOwnProperty('masters/modules/sunburst.src.js'))
 })
 
 test('Destroy chart if it exists', (t) => {
@@ -303,7 +303,7 @@ test('Set Options', (t) => {
   t.is(opts.lang.decimalPoint, ',')
 })
 
-test.only('Modules (tbd)', (t) => { // TBD: update...(mock require.context)
+test('Modules (tbd)', (t) => { // TBD: update...(mock require.context)
   const basicChart = ComponentFactory()
   const modules = ['heatmap', 'map']
   const wrapper = shallowMount(basicChart, {
