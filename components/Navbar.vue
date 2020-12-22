@@ -35,6 +35,14 @@ export default {
       to: v,
       label: startCase(v)
     }))
+    // New
+    this.links.push({
+      to: 'QuickMods',
+      label: 'Quick Mods'
+    }, {
+      to: 'AfricaMap',
+      label: 'Africa Map'
+    })
   }
 }
 </script>

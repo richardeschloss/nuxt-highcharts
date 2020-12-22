@@ -16,8 +16,9 @@ const chartOptions = { // <-- we also get intellisense correctly.
 // while the chartOptions would get passed to the *Highcharts.chart* method
 
 module.exports = {
+  telemetry: false,
   env: {},
-  mode: 'spa', // 'universal', // TBD: use highcharts *src* for ssr mode?
+  ssr: true,
   /*
    ** Headers of the page
    */
