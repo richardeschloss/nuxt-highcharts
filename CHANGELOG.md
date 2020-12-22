@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.0.6] - 12-21-2020
+### Added
+- "modules" prop feature that is consumed by the highchart component (see docs)
+
 ## [1.0.5] - 12-04-2020
 ### Added
 - module option to consume setOptions. This can also be a prop.

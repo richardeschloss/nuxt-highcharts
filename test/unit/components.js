@@ -1,4 +1,4 @@
-import test, { beforeEach } from 'ava'
+import test, { beforeEach, after } from 'ava'
 import { shallowMount } from '@vue/test-utils'
 import ComponentFactory from '@/highcharts/components'
 import { nextTickP } from 'nuxt-test-utils'
@@ -275,7 +275,7 @@ test('Sunburst chart', (t) => {
   const sunburstChart = ComponentFactory('sunburstChart')
   const wrapper = shallowMount(sunburstChart)
   const ctx = wrapper.vm
-  t.true(ctx.highcharts._modules.hasOwnProperty('modules/sunburst.src.js'))
+  t.true(ctx.highcharts._modules.hasOwnProperty('masters/modules/sunburst.src.js'))
 })
 
 test('Destroy chart if it exists', (t) => {
@@ -301,4 +301,62 @@ test('Set Options', (t) => {
   // @ts-ignore
   const opts = ctx.highcharts.getOptions()
   t.is(opts.lang.decimalPoint, ',')
+})
+
+test('Modules prop (defaults)', async (t) => {
+  const basicChart = ComponentFactory()
+  const modules = ['heatmap', 'map']
+  const wrapper = shallowMount(basicChart, {
+    propsData: { modules }
+  })
+  const ctx = wrapper.vm
+  modules.forEach((mod) => {
+    // @ts-ignore
+    t.true(ctx.highcharts._modules.hasOwnProperty(`masters/modules/${mod}.src.js`))
+  })
+
+  // @ts-ignore
+  t.truthy(ctx.highcharts.maps['myMapName'])
+})
+
+test('Modules prop (map data provided)', async (t) => {
+  const basicChart = ComponentFactory()
+  let fetched
+  // @ts-ignore
+  global.fetch = async function(url) {
+    fetched = url
+    return({
+      json: () => ({ title: 'testData' })
+    })
+  }
+  const modules = ['heatmap', 'map']
+  const mapChart = {
+    mapName: 'testMap',
+    mapData: '/path/to/map.json'
+  }
+  const wrapper = shallowMount(basicChart, {
+    propsData: { modules, map: mapChart }
+  })
+  const ctx = wrapper.vm
+  modules.forEach((mod) => {
+    // @ts-ignore
+    t.true(ctx.highcharts._modules.hasOwnProperty(`masters/modules/${mod}.src.js`))
+  })
+
+  // @ts-ignore
+  t.truthy(ctx.highcharts.maps['myMapName'])
+
+  await nextTickP(ctx)
+  t.is(fetched, '/path/to/map.json')
+})
+
+after('Require.context called in normal mode (run last)', (t) => {
+  const { resolve: pResolve } = require('path')
+  delete require.cache[pResolve('./highcharts/components.js')]
+  delete process.env.TEST
+  try {
+    require('@/highcharts/components')
+  } catch (err) {
+    t.is(err.message, 'require.context is not a function')
+  }
 })

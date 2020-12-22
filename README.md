@@ -129,6 +129,40 @@ The plugin will also inject `$highcharts` into the current context, so that on a
 
 3. Looking for more? The most up-to-date examples are in this [git repo!](https://github.com/richardeschloss/nuxt-highcharts). The demo uses this repo directly!
 
+### Beta features 
+* As of v1.0.6: The "modules" prop - takes an array of strings that specify the highcharts modules to use. Specifically, this looks in node_modules/highcharts/modules/*.js for the modules to auto import, and then the modules prop just specifies them by name (as of 1.0.6 "map" is the only module with a supported data handler in nuxt-highcharts; others may be added if the issues arise). Some modules require extra data to be set, such as the map chart. When that is the case, nuxt-highcharts dynamically creates a prop for that module. So, the map module would also consume data passed to the "map" prop:
+
+```html
+<highchart 
+  :modules="['map']"
+  :map="mapChart"
+  :options="chartOptions" 
+  :update="watchers"
+/>
+```
+
+```js
+data() {
+  return {
+    title: 'Highmaps (Africa) basic demo',
+    mapChart: {
+      // It's important for mapName to match exactly
+      // chartOptions.chart.map below 
+      // (since that's where the library renders to)
+      mapName: 'africa',
+      mapData: AfricaMapData,
+      // mapData: '/africa.geo.json' // Also works (if this is in static folder)
+    },
+    watchers: ['options.title']
+  }
+}
+```
+
+
+
+### Deprecation of older features
+* It is possible that the "highstock", "highmap" and "sunburst" charts will become obsolete because the highchart component with the modules prop should create the exact same charts (and many more charts, now that all the highcharts modules get auto scanned)
+
 ## Development
 
 1. Clone this repository
