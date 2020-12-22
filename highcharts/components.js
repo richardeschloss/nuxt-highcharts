@@ -55,7 +55,6 @@ const highchartsMods = Object.freeze({
 
 // -- v1.0.6:
 const hcProps = {}
-// then remember to istanbul ignore this part for cov.
 const hcModsContext = (!process.env.TEST) 
   // @ts-ignore
   ? require.context('highcharts/modules', true, /\.js$/)
