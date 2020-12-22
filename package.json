@@ -30,13 +30,17 @@
     "test:e2e:watch": "cross-env TEST=e2e ava --config e2e.config.js --color --watch"
   },
   "dependencies": {
+    "@nuxt/typescript-runtime": "^2.0.0",
     "highcharts": "^8.2.2"
   },
   "devDependencies": {
     "@ava/babel": "^1.0.1",
     "@babel/preset-env": "^7.9.6",
     "@babel/register": "latest",
+    "@nuxt/types": "^2.14.6",
+    "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/eslint-config": "^1.1.2",
+    "@nuxtjs/eslint-config-typescript": "^3.0.0",
     "@nuxtjs/eslint-module": "^1.2.0",
     "@vue/test-utils": "^1.0.0-beta.33",
     "ava": "^3.8.2",

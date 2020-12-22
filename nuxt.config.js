@@ -50,7 +50,10 @@ module.exports = {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [],
+  buildModules: [
+    // https://go.nuxtjs.dev/typescript
+    "@nuxt/typescript-build"
+  ],
   /*
    ** Nuxt.js modules
    */
