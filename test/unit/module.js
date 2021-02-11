@@ -1,10 +1,38 @@
-import test from 'ava'
+import test, { before, after } from 'ava'
 import { resolve as pResolve } from 'path'
-import { getModuleOptions, ModuleContext, PluginContext } from 'nuxt-test-utils'
+import { getModuleOptions, PluginContext, compilePlugin } from 'nuxt-test-utils'
 import config from '@/nuxt.config'
 import Module from '@/highcharts/module'
+import { prepareMocks, cleanMocks } from '@/test/utils'
 
 let pOptions, Plugin
+
+function ModuleContext({ options, module, compileOpts }) {
+  this.options = options
+  this.module = module
+  this.addTemplate = (opts) => {
+    if (!this.templateAdded) {
+      this.templateAdded = []  
+    }
+    this.templateAdded.push(opts)
+  }
+
+  this.addPlugin = (opts) => {
+    if (compileOpts) {
+      compileOpts.options = Object.assign({}, opts.options)
+      this.compilePlugin(compileOpts)
+    }
+    this.pluginAdded = opts
+  }
+  this.compilePlugin = compilePlugin
+  this.registerModule = () => {
+    this.module(this.options)
+  }
+}
+
+before('Prepare mocks', prepareMocks)
+
+after('Clean out mocks', cleanMocks)
 
 test('Module: adds plugin with configured options', async (t) => {
   const tmpFile = pResolve('./highcharts/plugin.compiled.js')
@@ -26,8 +54,10 @@ test('Module: adds plugin with configured options', async (t) => {
   t.truthy(ctx.pluginAdded.options)
 
   t.truthy(ctx.templateAdded)
-  t.is(ctx.templateAdded.src, pResolve('./highcharts/components.js'))
-  t.is(ctx.templateAdded.fileName, 'nuxt-highcharts/components.js')
+  t.is(ctx.templateAdded[0].src, pResolve('./highcharts/contexts.js'))
+  t.is(ctx.templateAdded[0].fileName, 'nuxt-highcharts/contexts.js')
+  t.is(ctx.templateAdded[1].src, pResolve('./highcharts/components.js'))
+  t.is(ctx.templateAdded[1].fileName, 'nuxt-highcharts/components.js')
 
   const { default: _Plugin, pOptions: _pOptions} = await import(tmpFile)
   pOptions = _pOptions

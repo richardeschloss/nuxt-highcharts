@@ -1,3 +1,4 @@
+// @ts-nocheck
 const { resolve } = require('path')
 
 module.exports = function (moduleOptions) {
@@ -5,6 +6,12 @@ module.exports = function (moduleOptions) {
     ...this.options['highcharts'],
     ...moduleOptions
   }
+
+  this.addTemplate({
+    ssr: false,
+    src: resolve(__dirname, 'contexts.js'),
+    fileName: 'nuxt-highcharts/contexts.js'
+  })
 
   this.addTemplate({
     src: resolve(__dirname, 'components.js'),
