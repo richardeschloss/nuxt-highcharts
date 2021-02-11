@@ -11,6 +11,7 @@
   ],
   "files": [
     "highcharts/components.js",
+    "highcharts/contexts.js",
     "highcharts/module.js",
     "highcharts/plugin.js"
   ],

@@ -1,8 +1,8 @@
 // @ts-nocheck
-import { copyFileSync, unlinkSync } from 'fs'
-import test, { before, beforeEach, after } from 'ava'
+import test, { before, after } from 'ava'
 import { shallowMount } from '@vue/test-utils'
 import { nextTickP } from 'nuxt-test-utils'
+import { prepareMocks, cleanMocks } from '@/test/utils'
 
 let ComponentFactory
 
@@ -68,17 +68,13 @@ const changedOptions = {
   }
 }
 
-const contexts = {
-  prod: './highcharts/contexts.js',
-  backup: './highcharts/contexts.js.bak',
-  mocks: './test/mocks/contexts.js'
-}
+before('Prepare mocks', prepareMocks)
 
-before('Prepare mocks', () => {
-  copyFileSync(contexts.prod, contexts.backup)
-  copyFileSync(contexts.mocks, contexts.prod)
+before('Require ComponentFactory', () => {
   ComponentFactory = (require('@/highcharts/components')).default
 })
+
+after('Clean out mocks', cleanMocks)
 
 test('Basic chart, empty opts', (t) => {
   const basicChart = ComponentFactory('chart', {})
@@ -363,9 +359,4 @@ test('Modules prop (map data provided)', async (t) => {
 
   await nextTickP(ctx)
   t.is(fetched, '/path/to/map.json')
-})
-
-after('Clean out mocks', () => {
-  copyFileSync(contexts.backup, contexts.prod)
-  unlinkSync(contexts.backup)  
 })
