@@ -1,4 +1,5 @@
 import Highcharts from 'highcharts'
+import { hcModsContext } from './contexts'
 
 const highchartsProps = Object.freeze({
   mapChart(props, dfltOptions) {
@@ -53,13 +54,8 @@ const highchartsMods = Object.freeze({
   },
 })
 
-// -- v1.0.6:
+// -- v1.0.7:
 const hcProps = {}
-const hcModsContext = (!process.env.TEST) 
-  // @ts-ignore
-  ? require.context('highcharts/modules', true, /\.js$/)
-  : require('../test/mocks').hcModsContext
-  
 const hcMods = hcModsContext.keys()
   .filter((k) => !k.endsWith('.src.js'))
   .map((fName) => {

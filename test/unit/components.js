@@ -1,7 +1,10 @@
-import test, { beforeEach, after } from 'ava'
+// @ts-nocheck
+import { copyFileSync, unlinkSync } from 'fs'
+import test, { before, beforeEach, after } from 'ava'
 import { shallowMount } from '@vue/test-utils'
-import ComponentFactory from '@/highcharts/components'
 import { nextTickP } from 'nuxt-test-utils'
+
+let ComponentFactory
 
 const dfltOptions = {
   chartOptions: {
@@ -64,6 +67,18 @@ const changedOptions = {
     }]
   }
 }
+
+const contexts = {
+  prod: './highcharts/contexts.js',
+  backup: './highcharts/contexts.js.bak',
+  mocks: './test/mocks/contexts.js'
+}
+
+before('Prepare mocks', () => {
+  copyFileSync(contexts.prod, contexts.backup)
+  copyFileSync(contexts.mocks, contexts.prod)
+  ComponentFactory = (require('@/highcharts/components')).default
+})
 
 test('Basic chart, empty opts', (t) => {
   const basicChart = ComponentFactory('chart', {})
@@ -350,13 +365,7 @@ test('Modules prop (map data provided)', async (t) => {
   t.is(fetched, '/path/to/map.json')
 })
 
-after('Require.context called in normal mode (run last)', (t) => {
-  const { resolve: pResolve } = require('path')
-  delete require.cache[pResolve('./highcharts/components.js')]
-  delete process.env.TEST
-  try {
-    require('@/highcharts/components')
-  } catch (err) {
-    t.is(err.message, 'require.context is not a function')
-  }
+after('Clean out mocks', () => {
+  copyFileSync(contexts.backup, contexts.prod)
+  unlinkSync(contexts.backup)  
 })
