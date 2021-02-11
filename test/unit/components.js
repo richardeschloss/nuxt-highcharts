@@ -1,7 +1,10 @@
-import test, { beforeEach, after } from 'ava'
+// @ts-nocheck
+import test, { before, after } from 'ava'
 import { shallowMount } from '@vue/test-utils'
-import ComponentFactory from '@/highcharts/components'
 import { nextTickP } from 'nuxt-test-utils'
+import { prepareMocks, cleanMocks } from '@/test/utils'
+
+let ComponentFactory
 
 const dfltOptions = {
   chartOptions: {
@@ -64,6 +67,14 @@ const changedOptions = {
     }]
   }
 }
+
+before('Prepare mocks', prepareMocks)
+
+before('Require ComponentFactory', () => {
+  ComponentFactory = (require('@/highcharts/components')).default
+})
+
+after('Clean out mocks', cleanMocks)
 
 test('Basic chart, empty opts', (t) => {
   const basicChart = ComponentFactory('chart', {})
@@ -348,15 +359,4 @@ test('Modules prop (map data provided)', async (t) => {
 
   await nextTickP(ctx)
   t.is(fetched, '/path/to/map.json')
-})
-
-after('Require.context called in normal mode (run last)', (t) => {
-  const { resolve: pResolve } = require('path')
-  delete require.cache[pResolve('./highcharts/components.js')]
-  delete process.env.TEST
-  try {
-    require('@/highcharts/components')
-  } catch (err) {
-    t.is(err.message, 'require.context is not a function')
-  }
 })
