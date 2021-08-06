@@ -1,4 +1,5 @@
 import Highcharts from 'highcharts'
+import More from 'highcharts/highcharts-more'
 import { hcModsContext } from './contexts'
 
 const highchartsProps = Object.freeze({
@@ -132,6 +133,10 @@ export default function ComponentFactory(
     modules: {
       type: Array,
       default: () => []
+    },
+    more: {
+      type: Boolean,
+      default: false
     }
   }
   if (highchartsProps[variant]) { // <-- to be deprecated
@@ -222,6 +227,11 @@ export default function ComponentFactory(
       const HC = this.highcharts
       if (this.setOptions) {
         HC.setOptions(this.setOptions)
+      }
+
+      // --- v1.0.8: Added "more" property, to enable more charts, like polar and bubble.
+      if (this.more) {
+        More(HC)
       }
 
       // --- v1.0.6: TBD (Initialize modules)

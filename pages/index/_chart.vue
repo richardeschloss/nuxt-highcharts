@@ -7,16 +7,18 @@
 </template>
 
 <script>
-import AfricaMap from '@/components/AfricaMap'
-import Chart from '@/components/Chart'
-import StockChart from '@/components/StockChart'
-import MapChart from '@/components/MapChart'
-import QuickMods from '@/components/QuickMods'
-import SunburstChart from '@/components/SunburstChart'
+import AfricaMap from '@/components/AfricaMap.vue'
+import BubbleChart from '@/components/BubbleChart.vue'
+import Chart from '@/components/Chart.vue'
+import StockChart from '@/components/StockChart.vue'
+import MapChart from '@/components/MapChart.vue'
+import QuickMods from '@/components/QuickMods.vue'
+import SunburstChart from '@/components/SunburstChart.vue'
 
 export default {
   components: {
     AfricaMap,
+    BubbleChart,
     Chart,
     StockChart,
     MapChart,
