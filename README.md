@@ -99,7 +99,7 @@ The `highstock` and `highmap` components are simply variants of the basic `highc
   * "options.title"
   * "options.yAxis"
   * "options.xAxis"
-  
+* `more` - [Boolean] Enable/disable highcharts-more (default: false). Some charts, such as polar and bubble, require this to be enabled.  
 
 The `highmap` component also adds the following prop:
 * `mapChart` - S/A module options

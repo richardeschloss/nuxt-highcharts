@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.0.8] - 08-06-2021
+### Added
+- "more" prop to enable highcharts-more
+
 ## [1.0.7] - 02-11-2021
 ### Fixed
 - The way mocks are handled in components factory. 

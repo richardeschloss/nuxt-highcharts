@@ -9,7 +9,14 @@
 
       <b-collapse id="nav-collapse" is-nav right>
         <b-navbar-nav class="ml-auto" right>
-          <b-nav-item v-for="link in links" :key="link.to" :to="link.to" right>{{link.label}}</b-nav-item>
+          <b-nav-item-dropdown text="Chart" right>
+            <b-dropdown-item 
+              v-for="link in links" 
+              :key="link.to" 
+              :to="link.to" 
+              right>{{link.label}}
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -42,6 +49,9 @@ export default {
     }, {
       to: 'AfricaMap',
       label: 'Africa Map'
+    }, {
+      to: 'BubbleChart',
+      label: 'Bubble Chart'
     })
   }
 }
