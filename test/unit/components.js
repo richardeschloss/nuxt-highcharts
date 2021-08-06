@@ -360,3 +360,14 @@ test('Modules prop (map data provided)', async (t) => {
   await nextTickP(ctx)
   t.is(fetched, '/path/to/map.json')
 })
+
+test('More', (t) => {
+  const basicChart = ComponentFactory()
+  const wrapper = shallowMount(basicChart, {
+    propsData: { 
+      more: true 
+    }
+  })
+  const ctx = wrapper.vm
+  t.truthy(ctx.highcharts.BubbleLegend)
+})
