@@ -82,6 +82,9 @@
         <button class="btn btn-primary" @click="setBoth()">
           Set two things at once
         </button>
+        <button class="btn btn-primary" @click="appendData">
+          Append Data
+        </button>
         <highchart
           :options="chartOptions"
           :animation="{duration: animationDuration}"
@@ -232,6 +235,9 @@ export default {
     })
   },
   methods: {
+    appendData() {
+      this.points.push(111)
+    },
     chartLoaded(chart) {
       // eslint-disable-next-line no-console
       console.log('Chart Loaded! ')
