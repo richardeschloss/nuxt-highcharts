@@ -14,6 +14,7 @@ import StockChart from '@/components/StockChart.vue'
 import MapChart from '@/components/MapChart.vue'
 import QuickMods from '@/components/QuickMods.vue'
 import SunburstChart from '@/components/SunburstChart.vue'
+import StockCompare from '@/components/StockCompare.vue'
 
 export default {
   components: {
@@ -23,7 +24,8 @@ export default {
     StockChart,
     MapChart,
     QuickMods,
-    SunburstChart
+    SunburstChart,
+    StockCompare
   }
 }
 </script>

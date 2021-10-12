@@ -52,6 +52,9 @@ export default {
     }, {
       to: 'BubbleChart',
       label: 'Bubble Chart'
+    }, {
+      to: 'StockCompare',
+      label: 'Stock Compare'
     })
   }
 }
