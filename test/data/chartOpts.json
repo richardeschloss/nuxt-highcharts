@@ -1,0 +1,82 @@
+{
+  "dflt": {
+    "caption": {
+      "text": "Some caption"
+    },
+    "chart": {
+      "type": "spline"
+    },
+    "xAxis": [
+      {
+        "title": {
+          "text": "xAxis title"
+        }
+      }
+    ],
+    "yAxis": [
+      {
+        "title": {
+          "text": "Values"
+        }
+      }
+    ],
+    "title": {
+      "text": "Some title"
+    },
+    "subtitle": {
+      "text": "Some subtitle"
+    },
+    "series": [
+      {
+        "name": "My series",
+        "data": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    ]
+  },
+  "changed": {
+    "caption": {
+      "text": "changed caption"
+    },
+    "chart": {
+      "type": "area"
+    },
+    "xAxis": [
+      {
+        "title": {
+          "text": "xAxis title changed"
+        }
+      }
+    ],
+    "yAxis": [
+      {
+        "title": {
+          "text": "changed Values"
+        }
+      }
+    ],
+    "title": {
+      "text": "changed title"
+    },
+    "subtitle": {
+      "text": "changed subtitle"
+    },
+    "series": [
+      {
+        "name": "changed series",
+        "data": [
+          4,
+          3,
+          2,
+          1,
+          0
+        ]
+      }
+    ]
+  }
+}
