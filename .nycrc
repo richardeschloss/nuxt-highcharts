@@ -3,9 +3,9 @@
   "reporter": ["html", "text"],
   "exclude": ["node_modules"],
   "include": [
-    "highcharts/components.js",
-    "highcharts/module.js", 
-    "highcharts/plugin.compiled.js"
+    "lib/components.js",
+    "lib/module.js", 
+    "lib/plugin.js"
   ],
   "extension": [".js"]
 }
