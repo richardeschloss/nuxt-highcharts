@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 10-24-2021
+### Changed
+- Package type to "module"
+- Refactored and linted code and old deps
+- Updated docs and demo
+- Updated deps
+
 ## [1.0.8] - 08-06-2021
 ### Added
 - "more" prop to enable highcharts-more
