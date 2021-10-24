@@ -42,17 +42,6 @@ yarn add nuxt-highcharts # or npm install nuxt-highcharts
 }
 ```
 
-### Module Options
-
-| Option | Type |  Description |
-| ---| --- | --- |
-| `chartOptions` | Object | Default chart options to use for the highchart components. These get wired to [Highcharts](https://api.highcharts.com/highcharts). Useful tip: `import('highcharts/highcharts').Options` to get intellisense suggestions |
-|`exporting` | Boolean | Enable/disable the exporting feature globally |
-| `setOptions` | Object | Options to use globally, that get sent to [Highcharts.setOptions](https://api.highcharts.com/highcharts). For example, decimal point separator ('.' or ','). Useful tip: `import('highcharts/highcharts').Options` to get intellisense suggestions |
-
-The above options can also be provided as *props* to the highcharts components. When provided as props, the props will be used instead. Module options are useful when you want the same feature applied globally, like exporting. Props are preferred when you only want to have those options affect individual components.
-
-
 ## Quick-Start Example
 
 1. For the impatient that "just need it to work", this is your easiest option! 
@@ -69,6 +58,16 @@ The above options can also be provided as *props* to the highcharts components. 
 ```
 
 3. Looking for more? The most up-to-date examples are in this [git repo!](https://github.com/richardeschloss/nuxt-highcharts). The demo uses this repo directly!
+
+### Module Options
+
+| Option | Type |  Description |
+| ---| --- | --- |
+| `chartOptions` | Object | Default chart options to use for the highchart components. These get wired to [Highcharts](https://api.highcharts.com/highcharts). Useful tip: `import('highcharts/highcharts').Options` to get intellisense suggestions |
+|`exporting` | Boolean | Enable/disable the exporting feature globally |
+| `setOptions` | Object | Options to use globally, that get sent to [Highcharts.setOptions](https://api.highcharts.com/highcharts). For example, decimal point separator ('.' or ','). Useful tip: `import('highcharts/highcharts').Options` to get intellisense suggestions |
+
+The above options can also be provided as *props* to the highcharts components. When provided as props, the props will be used instead. Module options are useful when you want the same feature applied globally, like exporting. Props are preferred when you only want to have those options affect individual components.
 
 ## Components
 The nuxt-highchart module adds a plugin which registers the following components:

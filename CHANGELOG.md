@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [2.0.0] - 10-24-2021
+## [2.0.1] - 10-24-2021
 ### Changed
 - Package type to "module"
 - Refactored and linted code and old deps
