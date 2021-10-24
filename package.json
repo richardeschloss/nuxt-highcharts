@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
-    "start": "cross-env node server/index.js",
+    "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "ava",

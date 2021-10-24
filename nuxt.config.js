@@ -19,7 +19,8 @@ export default {
   components: true,
   telemetry: false,
   env: {},
-  ssr: true,
+  target: process.env.NODE_ENV === 'development' ? 'server' : 'static',
+  // ssr: true,
   /*
    ** Headers of the page
    */
