@@ -4,10 +4,8 @@ dist
 .nuxt
 coverage
 
-# Plugin
-# lib/plugin.js
-highcharts
-pages
-test
-components
-nuxt.config.js
+# lib
+# pages
+# test
+# components
+# nuxt.config.js

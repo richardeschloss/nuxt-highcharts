@@ -2,66 +2,45 @@
   <div>
     <b-navbar toggleable="lg" type="light" variant="light">
       <b-navbar-brand to="/" class="logos">
-        <img src="@/assets/highcharts_logo.png" width="75%" alt="Highcharts Logo" />
-        <img src="@/assets/nuxt.svg" width="18%"/>
+        <img src="@/assets/highcharts_logo.png" width="75%" alt="Highcharts Logo">
+        <img src="@/assets/nuxt.svg" width="18%">
       </b-navbar-brand>
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-navbar-toggle target="nav-collapse" />
 
       <b-collapse id="nav-collapse" is-nav right>
         <b-navbar-nav class="ml-auto" right>
-          <b-nav-item-dropdown text="Chart" right>
-            <b-dropdown-item 
-              v-for="link in links" 
-              :key="link.to" 
-              :to="link.to" 
-              right>{{link.label}}
-            </b-dropdown-item>
-          </b-nav-item-dropdown>
+          <select v-model="selectedChart" class="form-control text-center" @change="$emit('chartSelected', selectedChart)">
+            <option value="" disabled selected>
+              Select Chart
+            </option>
+            <option v-for="chart in charts" :key="chart.name" :value="chart">
+              {{ chart.displayName }}
+            </option>
+          </select>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <h2>Welcome to the Nuxt Highcharts Demo!</h2>
-    <hr style="width: 200px; margin: 30px auto;">
   </div>
 </template>
 
 <script>
-function startCase(str) {
-  return str
-    .replace(/[a-z]/, (val) => val.toUpperCase() )
-    .replace(/[a-z][A-Z]/, (val) => val.split('').join(' '))
-}
 export default {
-  data() {
-    return {
-      links: []
+  props: {
+    charts: {
+      type: Array,
+      default: () => []
     }
   },
-  mounted() {
-    this.links = this.$highcharts.variants.map((v) => ({
-      to: v,
-      label: startCase(v)
-    }))
-    // New
-    this.links.push({
-      to: 'QuickMods',
-      label: 'Quick Mods'
-    }, {
-      to: 'AfricaMap',
-      label: 'Africa Map'
-    }, {
-      to: 'BubbleChart',
-      label: 'Bubble Chart'
-    }, {
-      to: 'StockCompare',
-      label: 'Stock Compare'
-    })
+  data () {
+    return {
+      selectedChart: ''
+    }
   }
 }
 </script>
 
 <style scoped>
 .logos {
-  width:50%;
+  width: 25%;
 }
 </style>

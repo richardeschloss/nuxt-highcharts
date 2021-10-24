@@ -1,12 +1,21 @@
 <template>
   <div>
+    Quick Mods (change mods with prop names)
     <input
       v-model="title"
       class="form-control centered"
     >
+    <highchart
+      :modules="['map']"
+      :map="mapChart"
+      :options="chartOptions"
+      :update="watchers"
+    />
+    <br>
+    Chart above should match the "highmap" below:
     <highmap
-      :mapChart="mapChart"
-      :options="chartOptions" 
+      :map="mapChart"
+      :options="chartOptions"
       :update="watchers"
     />
   </div>
@@ -16,22 +25,22 @@
 import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json'
 
 export default {
-  data() {
+  data () {
     return {
       title: 'Highmaps (Africa) basic demo',
       mapChart: {
         // It's important for mapName to match exactly
-        // chartOptions.chart.map below 
+        // chartOptions.chart.map below
         // (since that's where the library renders to)
         mapName: 'africa',
-        mapData: AfricaMapData,
+        mapData: AfricaMapData
         // mapData: '/africa.geo.json' // Also works (if this is in static folder)
       },
       watchers: ['options.title']
     }
   },
   computed: {
-    chartOptions() {
+    chartOptions () {
       return {
         chart: {
           map: 'africa'
@@ -125,7 +134,7 @@ export default {
         }]
       }
     }
-  }  
+  }
 }
 </script>
  <style scoped>
