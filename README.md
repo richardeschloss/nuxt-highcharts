@@ -25,26 +25,6 @@ yarn add nuxt-highcharts # or npm install nuxt-highcharts
   * [@highcharts/map-collection](https://www.npmjs.com/package/@highcharts/map-collection) - Collection of maps to use with Highmap. Please be aware of their [LICENSE](https://github.com/highcharts/map-collection-dist/blob/master/LICENSE.md). This module uses it strictly for demo purposes (and is non-profit, open-source). 
 
 
-NOTE: if you chose *not* to install the optional dependencies, you will most likely want to use webpack's [`ignorePlugin`](https://webpack.js.org/plugins/ignore-plugin/) to ignore the missing dependency. Otherwise, you'll be faced with either build warnings or errors.
-
-In nuxt.config, you would just need to add:
-
-```
-import webpack from 'webpack' // npm i -D webpack 
-
-module.exports = {
-  ...
-  build: {
-    plugins: [
-      new webpack.IgnorePlugin({
-        resourceRegExp: /\@highcharts\/map\-collection/
-      })
-    ],
-  }
-  ...
-}
-```
-
 2. Add `nuxt-highcharts` to the `modules` section of `nuxt.config.js`
 
 ```js
@@ -64,55 +44,16 @@ module.exports = {
 
 ### Module Options
 
-* `setOptions` - [Object] options to use globally, that get sent to [Highcharts.setOptions](https://api.highcharts.com/highcharts). Useful tip: import('highcharts/highcharts').Options to get intellisense suggestions 
-* `chartOptions` - [Object] Default chart options to use for the highchart components. These get wired to [Highcharts](https://api.highcharts.com/highcharts). Useful tip: import('highcharts/highcharts').Options to get intellisense suggestions
-* `exporting` - [Boolean] Enable/disable the exporting feature globally
-* `mapChart` - [Object] Default options for the [Highmap chart](https://www.highcharts.com/maps/demo)
-  * `mapName` - [String] name to use for the mapChat, default: "myMapName"
-  * `mapData` - [Object|string] data to use for the map, default: [world.geo.json](https://unpkg.com/@highcharts/map-collection@1.1.3/custom/world.geo.json). This can also be the JSON's url, which gets consumed by window.fetch
+| Option | Type |  Description |
+| ---| --- | --- |
+| `chartOptions` | Object | Default chart options to use for the highchart components. These get wired to [Highcharts](https://api.highcharts.com/highcharts). Useful tip: `import('highcharts/highcharts').Options` to get intellisense suggestions |
+|`exporting` | Boolean | Enable/disable the exporting feature globally |
+| `setOptions` | Object | Options to use globally, that get sent to [Highcharts.setOptions](https://api.highcharts.com/highcharts). For example, decimal point separator ('.' or ','). Useful tip: `import('highcharts/highcharts').Options` to get intellisense suggestions |
 
-The above options can also be provided as *props* to the highcharts components. When provided as props, the props will be used instead. The demo passes most options, except exporting, as props since different components will have different requirements.Some options you may want to be applied globally however.
+The above options can also be provided as *props* to the highcharts components. When provided as props, the props will be used instead. Module options are useful when you want the same feature applied globally, like exporting. Props are preferred when you only want to have those options affect individual components.
 
-## Usage
 
-### Module
-The module adds a plugin which registers the following components:
-1. `highchart` - The basic chart component (but still very powerful! see the demo)
-2. `highstock` - The highstock chart component
-3. `highmap` - The highmap chart component   
-4. `sunburst` - The sunburst chart
-
-The `highstock` and `highmap` components are simply variants of the basic `highchart` component which accepts the following props:
-
-* `highcharts` - [Object] The `Highcharts` instance to use, default: `Highcharts` imported by the plugin (from node_modules/highcharts).
-* `setOptions` - [Object] the `setOptions` to use. Default: `moduleOptions.setOptions`.
-* `options` - [Object] The `chartOptions` to use, default: `moduleOptions.chartOptions`. (Heads up: Might get renamed to `chartOptions` someday)
-* `redraw` - [Boolean] Redraw option for [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update)
-* `oneToOne` - [Boolean] One-to-One option for [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update) 
-* `animation` - [Object] Animation options [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update). This is where you can specify animation duration.
-* `exporting` - [Boolean] Enable / disable exporting. NOTE: the *module options* for exporting are applied to the default Highchart instance. If you wish to apply different exporting setting to a specific chart, this is a case where you'd have to pass in your own highcharts instance using the "highcharts" prop.
-* `update` - [Array] Contains an array of specific options to watch. Is extremely useful for speeding up the reactivity! Default: ["options"]. The following watchers are currently supported:
-  * "options": watch *deep* all the options' properties. Easy to use, but can impact performance.
-  * "options.caption"
-  * "options.series"
-  * "options.subtitle"
-  * "options.title"
-  * "options.yAxis"
-  * "options.xAxis"
-* `more` - [Boolean] Enable/disable highcharts-more (default: false). Some charts, such as polar and bubble, require this to be enabled.  
-
-The `highmap` component also adds the following prop:
-* `mapChart` - S/A module options
-
-The plugin will also inject `$highcharts` into the current context, so that on any component, you can access the following properties:
-* `$highcharts.chartTypes` - various chart types
-* `$highcharts.components` - the components registered by the plugin
-* `$highcharts.variants` - the variant names for the components; probably extraneous, but is used by the demo to auto generate the navbar links. 
-
-### Events
-* `chartLoaded` - emitted after successfully mounting any of the above components. It will provide an instance of the chart, so should you wish to use the Highchart API directly you can using that instance.
-
-## Examples:
+## Quick-Start Example
 
 1. For the impatient that "just need it to work", this is your easiest option! 
 ```
@@ -129,39 +70,59 @@ The plugin will also inject `$highcharts` into the current context, so that on a
 
 3. Looking for more? The most up-to-date examples are in this [git repo!](https://github.com/richardeschloss/nuxt-highcharts). The demo uses this repo directly!
 
-### Beta features 
-* As of v1.0.6: The "modules" prop - takes an array of strings that specify the highcharts modules to use. Specifically, this looks in node_modules/highcharts/modules/*.js for the modules to auto import, and then the modules prop just specifies them by name (as of 1.0.6 "map" is the only module with a supported data handler in nuxt-highcharts; others may be added if the issues arise). Some modules require extra data to be set, such as the map chart. When that is the case, nuxt-highcharts dynamically creates a prop for that module. So, the map module would also consume data passed to the "map" prop:
+## Components
+The nuxt-highchart module adds a plugin which registers the following components:
 
-```html
-<highchart 
-  :modules="['map']"
-  :map="mapChart"
-  :options="chartOptions" 
-  :update="watchers"
-/>
-```
+| Name | Description |
+| --- | --- |
+| `highchart` | The basic chart component (but still very powerful! see the demo) |
+| `highstock` | The highstock chart component, shorthand for `<highchart :modules="['stock']" /> |
+| `highmap` | The highmap chart component, shorthand for `<highchart :modules="['map']" /> |
 
-```js
-data() {
-  return {
-    title: 'Highmaps (Africa) basic demo',
-    mapChart: {
-      // It's important for mapName to match exactly
-      // chartOptions.chart.map below 
-      // (since that's where the library renders to)
-      mapName: 'africa',
-      mapData: AfricaMapData,
-      // mapData: '/africa.geo.json' // Also works (if this is in static folder)
-    },
-    watchers: ['options.title']
-  }
-}
-```
+### Props (extends and overrides [module options](#module-options))
+
+| Option | Type | Default |  Description |
+| ---| --- | --- | --- |
+| `animation` | Object | `{}` | Animation options [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update). This is where you can specify animation duration. |
+|`exporting` | Boolean | `moduleOptions.exporting || false` |Enable/disable the exporting feature globally |
+| `highcharts` | Object | `Highcharts` | The `Highcharts` instance to use, defaults to an instance imported by the plugin.
+| `map` | Object | `{ mapName: 'myMapName', mapData: [world.geo.json from https://unpkg.com/@highcharts/map-collection@1.1.3/custom/world.geo.json] } ` | Options for the [Highmap chart](https://www.highcharts.com/maps/demo). The `mapData` can be either the JSON or string pointing to the json file |
+| `modules` | Array\<String\> | Highcharts modules to load. These modules are in `node_modules/highcharts/modules/*.js` |
+| `more` | Boolean | false | Enable/disable highcharts-more. Some charts, such as polar and bubble, require this to be enabled. NOTE: Highcharts library deliberately leaves out the features to avoid bloating the library. Only specify `more` when you want those extra features |
+| `oneToOne` | Boolean | `true` | One-to-One option for [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update) |
+| `options` | Object | `moduleOptions.chartOptions || {}` | Default chart options to use for the highchart components. These get wired to [Highcharts](https://api.highcharts.com/highcharts). Useful tip: `import('highcharts/highcharts').Options` to get intellisense suggestions |
+| `redraw` | Boolean | `true` | Redraw option for [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update) |
+| `setOptions` | Object | `moduleOptions.setOptions` | Options to use globally, that get sent to [Highcharts.setOptions](https://api.highcharts.com/highcharts). For example, decimal point separator ('.' or ','). Useful tip: `import('highcharts/highcharts').Options` to get intellisense suggestions |
+| `update` | Array | `["options"]` | Contains an array of specific options to watch. Is extremely useful for speeding up the reactivity! Default: ["options"]. 
+
+The following watchers are currently supported: 
+  * "options": watch *deep* all the options' properties. Easy to use, but can impact performance.
+  * "options.caption"
+  * "options.series"
+  * "options.subtitle"
+  * "options.title"
+  * "options.yAxis"
+  * "options.xAxis" 
 
 
+The plugin will also inject `$highcharts` into the current context, so that on any component, you can access the following properties:
+* `$highcharts.chartTypes` - various chart types
+* `$highcharts.components` - the components registered by the plugin
 
-### Deprecation of older features
-* It is possible that the "highstock", "highmap" and "sunburst" charts will become obsolete because the highchart component with the modules prop should create the exact same charts (and many more charts, now that all the highcharts modules get auto scanned)
+### Events
+
+| Event | Description |
+| --- | --- |
+| `chartLoaded` | Emitted after successfully mounting any of the above components. It will provide an instance of the chart, so should you wish to use the Highchart API directly you can using that instance. |
+
+### Run-time config
+
+The following run-time config variables are also available in `this.$config.nuxtHighcharts`:
+
+| Variable | Description |
+| --- | --- |
+| pluginOptions | The module options that were passed to the plugin |
+| hcModNames | List of the highcharts modules you can load |
 
 ## Development
 
