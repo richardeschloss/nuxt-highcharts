@@ -5,7 +5,10 @@ import ava from 'ava'
 import Vue from 'vue'
 import ComponentFactory, { extendProps } from '../lib/components.js'
 
-const { serial: test, beforeEach, afterEach } = ava
+const { serial: test } = ava
+/**
+ * @param {number} ms
+ */
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 async function loadComponent (opts, variant = 'chart') {
@@ -16,28 +19,14 @@ async function loadComponent (opts, variant = 'chart') {
   return comp
 }
 
-let fetched
 // @ts-ignore
-global.fetch = function (url) {
-  fetched = url
+global.fetch = function () {
   return ({
     json: () => ({ title: 'testData' })
   })
 }
 
-const chartOpts = JSON.parse(readFileSync('./test/data/chartOpts.json'))
-
 extendProps(['exporting', 'map'])
-
-// beforeEach(() => {
-//   const Comp = Vue.extend(ComponentFactory('chart', {}))
-//   const comp = new Comp()
-//   comp.$nextTickP = promisify(comp.$nextTick)
-// })
-
-// afterEach(() => {
-//   comp.$destroy()
-// })
 
 test('Basic features, empty opts', async (t) => {
   const Comp = Vue.extend(ComponentFactory('chart', {}))
@@ -116,7 +105,7 @@ test('Highcharts More', async (t) => {
 })
 
 test('Basic chart', async (t) => {
-  const chartOpts = JSON.parse(readFileSync('./test/data/chartOpts.json'))
+  const chartOpts = JSON.parse(readFileSync('./test/data/chartOpts.json', { encoding: 'utf-8' }))
   const comp = await loadComponent({
     propsData: {
       options: chartOpts.dflt
@@ -129,7 +118,7 @@ test('Basic chart', async (t) => {
 })
 
 test('Basic chart, specified watchers', async (t) => {
-  const chartOpts = JSON.parse(readFileSync('./test/data/chartOpts.json'))
+  const chartOpts = JSON.parse(readFileSync('./test/data/chartOpts.json', { encoding: 'utf-8' }))
   const basicChart = ComponentFactory('chart', {})
   const Comp = Vue.extend(basicChart)
   const watchers = Object.keys(basicChart.methods).filter(m => m.includes('options'))
@@ -150,7 +139,7 @@ test('Basic chart, specified watchers', async (t) => {
   t.is(comp.chart.xAxis[0].axisTitle.textStr, comp.options.xAxis[0].title.text)
   t.is(comp.chart.yAxis[0].axisTitle.textStr, comp.options.yAxis[0].title.text)
   const newText = 'someNewText'
-  watchers.forEach(async (w) => {
+  watchers.forEach((w) => {
     const key = w.split('options.')[1]
     if (key === 'xAxis' || key === 'yAxis') {
       comp.options[key] = { title: { text: newText } }

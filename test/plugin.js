@@ -10,6 +10,11 @@ test('Plugin registers components', (t) => {
         hcMods: []
       }
     },
+    /**
+     *
+     * @param {string} label
+     * @param {*} obj
+     */
     inject (label, obj) {
       ctx['$' + label] = obj
     }

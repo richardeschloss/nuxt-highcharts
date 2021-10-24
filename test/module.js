@@ -14,9 +14,15 @@ test('Module: adds template and plugin', (t) => {
       },
       publicRuntimeConfig: {}
     },
+    /**
+     * @param {any} tmpl
+     */
     addTemplate (tmpl) {
       ctx.options.build.templates.push(tmpl)
     },
+    /**
+     * @param {any} plugin
+     */
     addPlugin (plugin) {
       ctx.options.plugins.push(plugin)
     },
