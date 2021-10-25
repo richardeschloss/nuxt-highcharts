@@ -20,7 +20,7 @@
   ],
   "main": "highcharts/module.js",
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt dev",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -44,7 +44,7 @@
     "eslint-plugin-unicorn": "^37.0.1",
     "jsdom": "^16.7.0",
     "jsdom-global": "^3.0.2",
-    "nuxt": "^2.15.8"
+    "nuxt3": "^3.0.0-27251455.110b2b2"
   },
   "optionalDependencies": {
     "@highcharts/map-collection": "^1.1.3"

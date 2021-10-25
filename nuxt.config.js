@@ -45,7 +45,10 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/main.css'],
+  css: [
+    'bootstrap/dist/css/bootstrap.css',
+    '~/assets/main.css'
+  ],
   /*
    ** Plugins to load before mounting the App
    */
@@ -58,7 +61,6 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    'bootstrap-vue/nuxt',
     '~/lib/module.js'
   ],
   highcharts: {

@@ -1,14 +1,21 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="light" variant="light">
-      <b-navbar-brand to="/" class="logos">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand logos" href="/">
         <img src="@/assets/highcharts_logo.png" width="75%" alt="Highcharts Logo">
         <img src="@/assets/nuxt.svg" width="18%">
-      </b-navbar-brand>
-      <b-navbar-toggle target="nav-collapse" />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarLinks"
+      >
+        <span class="navbar-toggler-icon" />
+      </button>
 
-      <b-collapse id="nav-collapse" is-nav right>
-        <b-navbar-nav class="ml-auto" right>
+      <div id="navbarLinks" class="collapse navbar-collapse">
+        <form class="position-absolute" style="right: 0px;">
           <select v-model="selectedChart" class="form-control text-center" @change="$emit('chartSelected', selectedChart)">
             <option value="" disabled selected>
               Select Chart
@@ -17,9 +24,9 @@
               {{ chart.displayName }}
             </option>
           </select>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
+        </form>
+      </div>
+    </nav>
   </div>
 </template>
 
