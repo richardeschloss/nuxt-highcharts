@@ -9,12 +9,13 @@
 export default {
   data () {
     const charts = []
-    for (const c in this.$options.components) {
+    const { components } = this.$.appContext
+    for (const c in components) {
       if (c.startsWith('Charts')) {
         charts.push({
           name: c,
           displayName: c.replace('Charts', ''),
-          component: this.$options.components[c]
+          component: components[c]
         })
       }
     }

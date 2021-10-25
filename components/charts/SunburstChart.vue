@@ -3,12 +3,10 @@
     ref="sunburst"
     :options="chartOptions"
     :modules="['sunburst']"
-    :highcharts="highcharts"
   />
 </template>
 
 <script>
-import highcharts from 'highcharts?for=sunburst'
 
 const data = [{
   id: '0.0',
@@ -1390,7 +1388,6 @@ const data = [{
 export default {
   data () {
     return {
-      highcharts,
       chartOptions: {
         chart: {
           height: '100%'
@@ -1452,11 +1449,14 @@ export default {
     }
   },
   mounted () {
-    // const HC = this.$refs.sunburst.highcharts // We could use this, but that would set the first color to transparent for the shared Highcharts instance
-    const HC = highcharts // <-- so instead, we provide a separate instance
+    const HC = this.$refs.sunburst.highcharts
     if (HC.getOptions().colors[0] !== 'transparent') {
       HC.getOptions().colors.unshift('transparent')
     }
+  },
+  beforeUnmount () {
+    const HC = this.$refs.sunburst.highcharts
+    HC.getOptions().colors.splice(0, 1)
   }
 }
 </script>
