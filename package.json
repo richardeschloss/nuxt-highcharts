@@ -1,6 +1,6 @@
 {
   "name": "nuxt-highcharts",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Highcharts for Nuxt",
   "repository": "richardeschloss/nuxt-highcharts",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "lib/module.js",
     "lib/plugin.js"
   ],
-  "main": "highcharts/module.js",
+  "main": "lib/module.js",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
