@@ -1,7 +1,5 @@
 const hcMods = {
-  map () {
-    return {}
-  }
+  map: () => import('highcharts/modules/map.js')
 }
 
 export default hcMods
