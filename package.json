@@ -11,6 +11,8 @@
     }
   ],
   "imports": {
+    "#app": "./test/mocks/app.js",
+    "#build/*": "./test/build/*",
     "#root/*": "./*"
   },
   "files": [
@@ -25,8 +27,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test": "ava",
-    "test:watch": "ava --color --watch",
+    "test": "ava --color --watch",
     "test:cov": "c8 ava --timeout=10m"
   },
   "dependencies": {
