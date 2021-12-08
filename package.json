@@ -20,7 +20,7 @@
     "lib/module.js",
     "lib/plugin.js"
   ],
-  "main": "highcharts/module.js",
+  "main": "lib/module.js",
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
