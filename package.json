@@ -15,11 +15,7 @@
     "#build/*": "./test/build/*",
     "#root/*": "./*"
   },
-  "files": [
-    "lib/components.js",
-    "lib/module.js",
-    "lib/plugin.js"
-  ],
+  "files": ["lib"],
   "main": "lib/module.js",
   "scripts": {
     "dev": "nuxi dev",

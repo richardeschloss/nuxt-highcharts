@@ -1,38 +1,17 @@
 import { resolve } from 'path'
 import test from 'ava'
 import Module from '../lib/module.js'
+import { wrapModule } from './utils/module.js'
 
+const delay = ms => new Promise(resolve =>
+  setTimeout(resolve, ms)
+)
 global.__dirname = 'lib'
 
-test('Module: adds template and plugin', (t) => {
-  const ctx = {
-    nuxt: {
-      version: '3.00',
-      hook () {},
-      options: {
-        plugins: [],
-        build: {
-          templates: [],
-          transpile: []
-        },
-        publicRuntimeConfig: {}
-      }
-    },
-    /**
-     * @param {any} tmpl
-     */
-    addTemplate (tmpl) {
-      ctx.nuxt.options.build.templates.push(tmpl)
-    },
-    /**
-     * @param {any} plugin
-     */
-    addPlugin (plugin) {
-      ctx.nuxt.options.plugins.push(plugin)
-    },
-    Module
-  }
+test('Module: adds template and plugin', async (t) => {
+  const ctx = wrapModule(Module)
   ctx.Module({})
+  await delay(100)
   const tmpl0 = ctx.nuxt.options.build.templates[0]
   const tmpl1 = ctx.nuxt.options.build.templates[1]
 
@@ -43,5 +22,10 @@ test('Module: adds template and plugin', (t) => {
   t.is(tmpl1.filename, 'nuxt-highcharts.components.js')
 
   t.is(plugin0.src, resolve(__dirname, 'plugin.js'))
-  t.false(plugin0.ssr)
+
+  ctx.Module({
+    exporting: true
+  })
+  await delay(100)
+  t.true(ctx.nuxt.options.publicRuntimeConfig.nuxtHighcharts.pluginOptions.exporting)
 })
