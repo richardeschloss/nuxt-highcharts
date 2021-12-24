@@ -1,12 +1,9 @@
-/* eslint-disable vue/one-component-per-file */
 import 'jsdom-global/register.js'
 import { readFileSync } from 'fs'
+import { promisify } from 'util'
 import ava from 'ava'
-// @ts-ignore
-import { h, createApp, nextTick } from 'vue'
-import BrowserEnv from 'browser-env'
+import Vue from 'vue'
 import ComponentFactory, { extendProps } from '../lib/components.js'
-BrowserEnv()
 
 const { serial: test } = ava
 /**
@@ -14,15 +11,12 @@ const { serial: test } = ava
  */
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-const root = document.createElement('div')
-root.id = 'app'
-document.body.appendChild(root)
-
-async function loadComponent (opts = {}, variant = 'chart') {
-  const Comp = createApp(ComponentFactory(variant, {}), opts)
-  const comp = Comp.mount('#app')
-  await nextTick()
-  return { Comp, comp }
+async function loadComponent (opts, variant = 'chart') {
+  const Comp = Vue.extend(ComponentFactory(variant, {}))
+  const comp = new Comp(opts)
+  comp.$nextTickP = promisify(comp.$nextTick)
+  await comp.$mount()
+  return comp
 }
 
 // @ts-ignore
@@ -35,127 +29,110 @@ global.fetch = function () {
 extendProps(['exporting', 'map'])
 
 test('Basic features, empty opts', async (t) => {
-  const Comp = createApp(ComponentFactory('chart', {}))
-  const comp = Comp.mount('#app')
-  await nextTick()
+  const Comp = Vue.extend(ComponentFactory('chart', {}))
+  const comp = new Comp()
+  comp.$nextTickP = promisify(comp.$nextTick)
+  comp.$mount()
+  await comp.$nextTickP()
   t.truthy(comp.chart)
   t.false(comp.exporting)
-  Comp.unmount()
+  comp.$destroy()
 })
 
-test('Features, (from module options)', async (t) => {
-  const Comp = createApp(ComponentFactory('chart', {
+test('Features, (from module options)', (t) => {
+  const Comp = Vue.extend(ComponentFactory('chart', {
     exporting: true
   }))
-  const comp = Comp.mount('#app')
-  await nextTick()
+  const comp = new Comp({})
   t.true(comp.exporting)
 })
 
 test('Features and options, as props', async (t) => {
-  const { Comp, comp } = await loadComponent({
-    exporting: true,
-    setOptions: {
-      lang: {
-        decimalPoint: ','
+  const comp = await loadComponent({
+    propsData: {
+      exporting: true,
+      setOptions: {
+        lang: {
+          decimalPoint: ','
+        }
       }
     }
   })
   const opts = comp.highcharts.getOptions()
   t.is(opts.lang.decimalPoint, ',')
   t.true(comp.exporting)
-  Comp.unmount()
 })
 
 test('Map chart (<highchart :modules=["map"] />', async (t) => {
-  const { Comp, comp } = await loadComponent({
-    modules: ['map']
-  }, 'mapChart')
+  const comp = await loadComponent({
+    propsData: {
+      modules: ['map']
+    }
+  })
   await delay(500)
   t.truthy(comp.highcharts.mapChart)
-  Comp.unmount()
-})
+}, 'mapChart')
 
 test('Map chart (<highmap />', async (t) => {
-  const { Comp, comp } = await loadComponent({}, 'mapChart')
+  const comp = await loadComponent({}, 'mapChart')
   await delay(500)
   t.truthy(comp.highcharts.mapChart)
-  Comp.unmount()
-})
+}, 'mapChart')
 
 test('Map chart (mapChart info as a prop)', async (t) => {
-  const { Comp, comp } = await loadComponent({
-    map: {
-      mapName: 'providedMap',
-      mapData: '/path/to/map.json'
-    },
-    modules: ['map']
-  }, 'mapChart')
+  const comp = await loadComponent({
+    propsData: {
+      map: {
+        mapName: 'providedMap',
+        mapData: '/path/to/map.json'
+      },
+      modules: ['map']
+    }
+  })
   await delay(500)
   t.truthy(comp.highcharts.maps.providedMap)
-  Comp.unmount()
-})
+}, 'mapChart')
 
 test('Highcharts More', async (t) => {
-  const { comp, Comp } = await loadComponent({
-    more: true
+  const comp = await loadComponent({
+    propsData: {
+      more: true
+    }
   })
 
   await delay(500)
   t.true(Object.prototype.hasOwnProperty.call(comp.highcharts._modules, 'masters/highcharts-more.src.js'))
-  Comp.unmount()
 })
 
 test('Basic chart', async (t) => {
   const chartOpts = JSON.parse(readFileSync('./test/data/chartOpts.json', { encoding: 'utf-8' }))
-  const Comp = ComponentFactory('chart', {})
-  const App = createApp({
-    data () {
-      return {
-        options: chartOpts.dflt
-      }
-    },
-    render () {
-      return h(Comp, {
-        ref: 'comp',
-        options: this.options
-      })
+  const comp = await loadComponent({
+    propsData: {
+      options: chartOpts.dflt
     }
   })
-  const app = App.mount('#app')
-  await nextTick()
-  const { comp } = app.$refs
   t.is(comp.options.title.text, chartOpts.dflt.title.text)
-  app.options.title.text = 12131314
-  await nextTick()
+  comp.options.title.text = comp.options.title.text + ' something new!'
+  await comp.$nextTickP()
   t.is(comp.chart.title.textStr, comp.options.title.text)
 })
 
 test('Basic chart, specified watchers', async (t) => {
   const chartOpts = JSON.parse(readFileSync('./test/data/chartOpts.json', { encoding: 'utf-8' }))
-  const Comp = ComponentFactory('chart', {})
-  const watchers = Object.keys(Comp.methods).filter(m => m.includes('options'))
+  const basicChart = ComponentFactory('chart', {})
+  const Comp = Vue.extend(basicChart)
+  const watchers = Object.keys(basicChart.methods).filter(m => m.includes('options'))
   watchers.push('invalid')
-
-  const App = createApp({
-    data () {
-      return {
-        options: chartOpts.dflt
-      }
-    },
-    render () {
-      return h(Comp, {
-        ref: 'comp',
-        options: this.options,
-        update: watchers
-      })
+  const comp = new Comp({
+    propsData: {
+      options: chartOpts.dflt,
+      update: watchers
     }
   })
-  const app = await App.mount('#app')
-  const { comp } = app.$refs
-  await nextTick()
+  comp.$nextTickP = promisify(comp.$nextTick)
+  comp.$mount()
   Object.assign(comp.options, chartOpts.changed)
-  await nextTick()
+  await comp.$nextTick()
   t.is(comp.chart.title.textStr, comp.options.title.text)
   t.is(comp.chart.caption.textStr, comp.options.caption.text)
   t.is(comp.chart.subtitle.textStr, comp.options.subtitle.text)
