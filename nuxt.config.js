@@ -1,3 +1,5 @@
+import { defineNuxtConfig } from '@nuxt/bridge'
+
 /** @type {import('highcharts/highcharts').Options} */
 const setOptions = {
   lang: { // <-- we correctly get intellisense
@@ -15,7 +17,10 @@ const setOptions = {
 // per the API docs, the "setOptions" get passed to the "Highcharts.setOptions" method
 // while the chartOptions would get passed to the *Highcharts.chart* method
 
-export default {
+export default defineNuxtConfig({
+  bridge: {
+    vite: true
+  },
   components: true,
   telemetry: false,
   env: {},
@@ -46,7 +51,7 @@ export default {
    ** Global CSS
    */
   css: [
-    'bootstrap/dist/css/bootstrap.css',
+    '~/assets/bootstrap.min.css',
     '~/assets/main.css'
   ],
   /*
@@ -71,22 +76,7 @@ export default {
     //   mapData: {importedjsonData...}
     // }
   },
-  /*
-   ** Build configuration
-   */
-  build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend (config, ctx) {}
-    // parallel: true,
-    // cache: true,
-    // hardSource: true
-  },
-  globals: {
-    loadingTimeout: 5000
-  },
   generate: {
     dir: './public'
   }
-}
+})

@@ -9,7 +9,7 @@
 export default {
   data () {
     const charts = []
-    const { components } = this.$.appContext
+    const { components } = this.$options
     for (const c in components) {
       if (c.startsWith('Charts')) {
         charts.push({
