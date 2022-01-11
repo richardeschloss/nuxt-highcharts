@@ -1,6 +1,6 @@
 {
   "name": "nuxt-highcharts",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Highcharts for Nuxt",
   "repository": "richardeschloss/nuxt-highcharts",
   "license": "MIT",
@@ -11,21 +11,19 @@
     }
   ],
   "imports": {
-    "#app": "./test/mocks/app.js",
+    "#app": "./test/utils/plugin.js",
     "#build/*": "./test/build/*",
     "#root/*": "./*"
   },
   "files": [
-    "lib/components.js",
-    "lib/module.js",
-    "lib/plugin.js"
+    "lib"
   ],
   "main": "lib/module.js",
   "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "start": "nuxi preview",
+    "generate": "nuxi generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "ava --color --watch",
     "test:cov": "c8 ava --timeout=10m"
@@ -34,18 +32,13 @@
     "highcharts": "^9.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
     "@nuxtjs/eslint-config": "^6.0.1",
     "ava": "^3.15.0",
     "bootstrap-vue": "^2.21.2",
-    "browser-env": "^3.3.0",
     "c8": "^7.10.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-jest": "^25.2.2",
-    "eslint-plugin-unicorn": "^37.0.1",
-    "jsdom": "^16.7.0",
     "jsdom-global": "^3.0.2",
-    "nuxt3": "^3.0.0-27251455.110b2b2"
+    "nuxt3": "^3.0.0-27365509.a2e2e04"
   },
   "optionalDependencies": {
     "@highcharts/map-collection": "^1.1.3"
