@@ -4,7 +4,7 @@ import { readFileSync } from 'fs'
 import ava from 'ava'
 // @ts-ignore
 import { h, createApp, nextTick } from 'vue'
-import BrowserEnv from 'browser-env'
+import BrowserEnv from 'browser-env' // Gives us SVGElement
 import ComponentFactory, { extendProps } from '../lib/components.js'
 BrowserEnv()
 
