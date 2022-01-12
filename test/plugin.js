@@ -1,34 +1,24 @@
 import test from 'ava'
-import { setup } from '#app'
+import '../lib/plugin.js'
+import { pluginCtx, pluginDef } from './utils/plugin.js'
 
-const nuxt = {
-  $config: {
+test('Plugin registers components', async (t) => {
+  const nuxtApp = pluginCtx()
+  nuxtApp.$config = {
     nuxtHighcharts: {
       pluginOptions: {},
       hcMods: []
     }
-  },
-  provide (name, svc) {
-    nuxt['$' + name] = svc
-  },
-  vueApp: {
-    components: [],
-    component (name, comp) {
-      nuxt.vueApp.components.push(name)
-    }
   }
-}
-
-test('Plugin registers components', async (t) => {
-  setup(nuxt)
-  await import('../lib/plugin.js')
-  t.truthy(nuxt.$highcharts)
-  const highcharts = nuxt.$highcharts({})
+  await pluginDef(nuxtApp)
+  const ctx = pluginCtx()
+  t.truthy(ctx.$highcharts)
+  const highcharts = ctx.$highcharts({})
   t.is(typeof highcharts, 'object')
 
   const expectedComps = ['highchart', 'highstock', 'highmap']
 
   expectedComps.forEach((c) => {
-    t.true(nuxt.vueApp.components.includes(c))
+    t.true(ctx.components.hasOwnProperty(c))
   })
 })
