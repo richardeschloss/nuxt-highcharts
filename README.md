@@ -14,8 +14,14 @@
 
 1. Add `nuxt-highcharts` dependency to your project
 
+* Nuxt 2.x:
 ```bash
-yarn add nuxt-highcharts # or npm install nuxt-highcharts
+npm i nuxt-highcharts
+```
+
+* Nuxt 3.x:
+```bash
+npm i nuxt-highcharts@next
 ```
 
 - These are the module's *required* dependencies:
