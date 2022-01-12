@@ -1,3 +1,5 @@
+import { defineNuxtConfig } from 'nuxt3'
+
 /** @type {import('highcharts/highcharts').Options} */
 const setOptions = {
   lang: { // <-- we correctly get intellisense
@@ -15,15 +17,10 @@ const setOptions = {
 // per the API docs, the "setOptions" get passed to the "Highcharts.setOptions" method
 // while the chartOptions would get passed to the *Highcharts.chart* method
 
-export default {
-  components: true,
+export default defineNuxtConfig({
+  components: false,
   telemetry: false,
-  env: {},
   target: process.env.NODE_ENV === 'development' ? 'server' : 'static',
-  // ssr: true,
-  /*
-   ** Headers of the page
-   */
   head: {
     components: true,
     title: process.env.npm_package_name || '',
@@ -38,28 +35,10 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: { color: '#fff' },
-  /*
-   ** Global CSS
-   */
   css: [
-    'bootstrap/dist/css/bootstrap.css',
+    '~/assets/bootstrap.min.css',
     '~/assets/main.css'
   ],
-  /*
-   ** Plugins to load before mounting the App
-   */
-  plugins: [],
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: [],
-  /*
-   ** Nuxt.js modules
-   */
   modules: [
     '~/lib/module.js'
   ],
@@ -70,23 +49,5 @@ export default {
     //   mapName: 'myMapName',
     //   mapData: {importedjsonData...}
     // }
-  },
-  /*
-   ** Build configuration
-   */
-  build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend (config, ctx) {}
-    // parallel: true,
-    // cache: true,
-    // hardSource: true
-  },
-  globals: {
-    loadingTimeout: 5000
-  },
-  generate: {
-    dir: './public'
   }
-}
+})
