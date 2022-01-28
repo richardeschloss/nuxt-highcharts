@@ -4,6 +4,8 @@ import { Options } from 'highcharts/highcharts'
 // per the API docs, the "setOptions" get passed to the "Highcharts.setOptions" method
 // while the chartOptions would get passed to the *Highcharts.chart* method
 
+export { Options as ChartOptions }
+
 export type ModuleOptions = {
   chartOptions?: Options;
   exporting?: Boolean;
@@ -17,5 +19,22 @@ declare module "@nuxt/schema" {
 
   interface NuxtOptions {
     highcharts?: ModuleOptions;
+  }
+}
+
+declare type NuxtHighcharts = {
+  chartTypes: Array<String>;
+  components: Array<{ name: String, variant: String }>  
+}
+
+declare module "#app" {
+  interface NuxtApp {
+    $highcharts: NuxtHighcharts
+  }
+}
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $highcharts: NuxtHighcharts
   }
 }
