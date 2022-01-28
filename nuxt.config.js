@@ -1,22 +1,5 @@
 import { defineNuxtConfig } from 'nuxt3'
 
-/** @type {import('highcharts/highcharts').Options} */
-const setOptions = {
-  lang: { // <-- we correctly get intellisense
-    // decimalPoint: '.' // this can be changed to anything, like ',' and it works
-  }
-}
-
-/** @type {import('highcharts/highcharts').Options} */
-// const chartOptions = { // <-- we also get intellisense correctly.
-//   credits: {
-//     enabled: true // <-- typing "e" suggests "enabled?" ok
-//   }
-// }
-// Important note: as of 12/2020 it seems...
-// per the API docs, the "setOptions" get passed to the "Highcharts.setOptions" method
-// while the chartOptions would get passed to the *Highcharts.chart* method
-
 export default defineNuxtConfig({
   components: false,
   telemetry: false,
@@ -43,11 +26,6 @@ export default defineNuxtConfig({
     '~/lib/module.js'
   ],
   highcharts: {
-    exporting: true,
-    setOptions
-    // mapChart: { // Also works
-    //   mapName: 'myMapName',
-    //   mapData: {importedjsonData...}
-    // }
+    exporting: true
   }
 })
