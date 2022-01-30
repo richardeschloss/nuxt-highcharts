@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       symbol: 'AAPL',
       watchers: ['options.series'],
@@ -12,7 +12,7 @@ export default {
     }
   },
   computed: {
-    chartOptions() {
+    chartOptions () {
       return {
         chart: {
           type: 'candlestick'
@@ -27,13 +27,14 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     this.fetchData('AAPL')
   },
   methods: {
-    async fetchData(symbol) {
+    async fetchData (symbol) {
       const { price } = await fetch('/ohlcv.json').then(r => r.json())
       this.series.push({
+        id: symbol.toLowerCase(),
         name: symbol,
         data: price.map((entry) => {
           return [
@@ -41,9 +42,12 @@ export default {
             entry.open.val,
             entry.high.val,
             entry.low.val,
-            entry.close.val,
+            entry.close.val
           ]
         })
+      }, { // Example with EMA
+        type: 'ema',
+        linkedTo: symbol.toLowerCase()
       })
     }
   }
