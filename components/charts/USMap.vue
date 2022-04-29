@@ -3,7 +3,6 @@
     <highmap
       :map="mapChart"
       :options="chartOptions"
-      :modules="['data']"
     />
   </div>
 </template>
