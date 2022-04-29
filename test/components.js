@@ -193,3 +193,10 @@ test('Basic chart, specified watchers', async (t) => {
   t.is(comp.chart.xAxis[0].axisTitle.textStr, newText2)
   t.is(comp.chart.yAxis[0].axisTitle.textStr, newText2)
 })
+
+test('Stock chart (<highstock />)', async (t) => {
+  const { Comp, comp } = await loadComponent({}, 'stockChart')
+  await delay(500)
+  t.truthy(comp.highcharts.stockChart)
+  Comp.unmount()
+})
