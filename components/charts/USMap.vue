@@ -23,7 +23,7 @@ export default {
     return {
       codes: [],
       mapChart: {
-        mapName: 'us',
+        mapName: 'us-small',
         mapData: USMapData
       }
     }
@@ -32,7 +32,7 @@ export default {
     chartOptions () {
       return {
         chart: {
-          map: USMapData,
+          map: 'us-small',
           borderWidth: 1
         },
 
