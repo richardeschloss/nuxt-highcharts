@@ -14,9 +14,7 @@
     "#root/*": "./*"
   },
   "files": [
-    "lib/components.js",
-    "lib/module.js",
-    "lib/plugin.js"
+    "lib"
   ],
   "main": "lib/module.js",
   "scripts": {
@@ -30,7 +28,7 @@
     "test:cov": "c8 ava --timeout=10m"
   },
   "dependencies": {
-    "highcharts": "^9.3.0"
+    "highcharts": "^10.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
@@ -47,7 +45,8 @@
     "nuxt": "^2.15.8"
   },
   "optionalDependencies": {
-    "@highcharts/map-collection": "^1.1.3"
+    "@highcharts/map-collection": "^2.0.0",
+    "proj4": "^2.8.0"
   },
   "publishConfig": {
     "access": "public"
