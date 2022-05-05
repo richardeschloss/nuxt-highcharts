@@ -5,6 +5,8 @@ import ava from 'ava'
 import Vue from 'vue'
 import ComponentFactory, { extendProps } from '../lib/components.js'
 
+Vue.config.productionTip = false
+Vue.config.devtools = false
 const { serial: test } = ava
 /**
  * @param {number} ms
