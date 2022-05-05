@@ -28,7 +28,7 @@
     "test:cov": "c8 ava --timeout=10m"
   },
   "dependencies": {
-    "highcharts": "^10.1.0"
+    "highcharts": "^10.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",

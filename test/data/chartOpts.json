@@ -1,5 +1,8 @@
 {
   "dflt": {
+    "accessibility": {
+      "enabled": false
+    },
     "caption": {
       "text": "Some caption"
     },

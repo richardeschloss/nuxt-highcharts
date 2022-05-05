@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 - USMap example with optional dependency proj4
 
 ### Updated
-- highcharts to v10, and @highcharts/map-collection to v2 
+- highcharts to v10 (10.0.0 specifically), and @highcharts/map-collection to v2 
 
 ## [2.0.1] - 10-24-2021
 ### Changed
