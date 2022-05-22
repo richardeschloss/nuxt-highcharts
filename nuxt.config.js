@@ -1,11 +1,13 @@
-import { defineNuxtConfig } from 'nuxt3'
+import { defineNuxtConfig } from 'nuxt'
 
 export default defineNuxtConfig({
-  components: false,
+  components: {
+    global: true,
+    dirs: ['~/components']
+  },
   telemetry: false,
-  target: process.env.NODE_ENV === 'development' ? 'server' : 'static',
+  // target: process.env.NODE_ENV === 'development' ? 'server' : 'static',
   head: {
-    components: true,
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
