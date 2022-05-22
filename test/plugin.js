@@ -5,9 +5,11 @@ import { pluginCtx, pluginDef } from './utils/plugin.js'
 test('Plugin registers components', async (t) => {
   const nuxtApp = pluginCtx()
   nuxtApp.$config = {
-    nuxtHighcharts: {
-      pluginOptions: {},
-      hcMods: []
+    public: {
+      nuxtHighcharts: {
+        pluginOptions: {},
+        hcMods: []
+      }
     }
   }
   await pluginDef(nuxtApp)

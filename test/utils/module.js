@@ -28,7 +28,9 @@ export function initNuxt () {
         transpile: [],
         templates: []
       },
-      publicRuntimeConfig: {}
+      runtimeConfig: {
+        public: {}
+      }
     }
   }
   // @ts-ignore

@@ -8,7 +8,9 @@ const ctx = {
   provide (label, fn) {
     ctx['$' + label] = fn
   },
-  $config: {}
+  $config: {
+    public: {}
+  }
 }
 
 export let pluginDef
