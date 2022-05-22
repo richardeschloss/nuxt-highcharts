@@ -38,7 +38,7 @@
     "c8": "^7.10.0",
     "eslint": "^7.32.0",
     "jsdom-global": "^3.0.2",
-    "nuxt3": "^3.0.0-27365391.7479eac"
+    "nuxt": "npm:nuxt3@latest"
   },
   "optionalDependencies": {
     "@highcharts/map-collection": "^2.0.0"
