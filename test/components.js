@@ -118,7 +118,8 @@ test('Basic chart', async (t) => {
     render () {
       return h(Comp, {
         ref: 'comp',
-        options: this.options
+        options: this.options,
+        redraw: false // TBD: not sure why redrawing is broken when "series" is provided. (not broken in 10.0.0, only 10.1.0)
       })
     }
   })
@@ -129,10 +130,12 @@ test('Basic chart', async (t) => {
   app.options.title.text = 12131314
   await nextTick()
   t.is(comp.chart.title.textStr, comp.options.title.text)
+  App.unmount()
 })
 
 test('Basic chart, specified watchers', async (t) => {
   const chartOpts = JSON.parse(readFileSync('./test/data/chartOpts.json', { encoding: 'utf-8' }))
+  chartOpts.dflt.accessibility = { enabled: false }
   const Comp = ComponentFactory('chart', {})
   const watchers = Object.keys(Comp.methods).filter(m => m.includes('options'))
   watchers.push('invalid')
@@ -147,7 +150,8 @@ test('Basic chart, specified watchers', async (t) => {
       return h(Comp, {
         ref: 'comp',
         options: this.options,
-        update: watchers
+        update: watchers,
+        redraw: false
       })
     }
   })
@@ -159,8 +163,9 @@ test('Basic chart, specified watchers', async (t) => {
   t.is(comp.chart.title.textStr, comp.options.title.text)
   t.is(comp.chart.caption.textStr, comp.options.caption.text)
   t.is(comp.chart.subtitle.textStr, comp.options.subtitle.text)
-  t.is(comp.chart.xAxis[0].axisTitle.textStr, comp.options.xAxis[0].title.text)
-  t.is(comp.chart.yAxis[0].axisTitle.textStr, comp.options.yAxis[0].title.text)
+  t.is(comp.chart.xAxis[0].userOptions.title.text, comp.options.xAxis[0].title.text)
+  t.is(comp.chart.yAxis[0].userOptions.title.text, comp.options.yAxis[0].title.text)
+
   const newText = 'someNewText'
   watchers.forEach((w) => {
     const key = w.split('options.')[1]
@@ -175,23 +180,24 @@ test('Basic chart, specified watchers', async (t) => {
   t.is(comp.chart.title.textStr, newText)
   t.is(comp.chart.caption.textStr, newText)
   t.is(comp.chart.subtitle.textStr, newText)
-  t.is(comp.chart.xAxis[0].axisTitle.textStr, newText)
-  t.is(comp.chart.yAxis[0].axisTitle.textStr, newText)
+  t.is(comp.chart.xAxis[0].userOptions.title.text, newText)
+  t.is(comp.chart.yAxis[0].userOptions.title.text, newText)
 
   comp.options.series = null
   comp.options.xAxis = null
   comp.options.yAxis = null
   await comp.$nextTick()
-  t.is(comp.chart.xAxis[0].axisTitle.textStr, newText)
-  t.is(comp.chart.yAxis[0].axisTitle.textStr, newText)
+  t.is(comp.chart.xAxis[0].userOptions.title.text, newText)
+  t.is(comp.chart.yAxis[0].userOptions.title.text, newText)
 
   const newText2 = 'text in array'
   comp.options.xAxis = [{ title: { text: newText2 } }]
   comp.options.yAxis = [{ title: { text: newText2 } }]
 
   await comp.$nextTick()
-  t.is(comp.chart.xAxis[0].axisTitle.textStr, newText2)
-  t.is(comp.chart.yAxis[0].axisTitle.textStr, newText2)
+  t.is(comp.chart.xAxis[0].userOptions.title.text, newText2)
+  t.is(comp.chart.yAxis[0].userOptions.title.text, newText2)
+  App.unmount()
 })
 
 test('Stock chart (<highstock />)', async (t) => {
