@@ -8,11 +8,15 @@
         Append random data
       </button>
     </div>
+    <button class="btn btn-primary" @click="width = (width === 100) ? 50 : 100">
+      Toggle Full Width
+    </button>
     <highchart
+      ref="basicChart"
       :options="chartOptions"
       :modules="['exporting']"
       :update="watchers"
-      style="width:100%;"
+      :style="`width:${width}%;`"
     />
   </div>
 </template>
@@ -21,6 +25,7 @@
 export default {
   data () {
     return {
+      width: 50,
       caption: 'Chart caption here',
       title: 'Basic Chart',
       subtitle: 'More details here',
@@ -60,6 +65,9 @@ export default {
     chartOptions () {
       const ctx = this
       return {
+        accessibility: {
+          enabled: false
+        },
         caption: {
           text: this.caption,
           style: {
@@ -127,6 +135,14 @@ export default {
         }]
       }
     }
+  },
+  mounted () {
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (this.$refs.basicChart.chart) {
+        this.$refs.basicChart.chart.reflow()
+      }
+    })
+    resizeObserver.observe(this.$refs.basicChart.$el)
   }
 }
 </script>
