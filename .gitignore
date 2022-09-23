@@ -10,3 +10,4 @@ dist
 .nyc_output
 .env
 highcharts/plugin.compiled.js
+.output
