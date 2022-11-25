@@ -5,15 +5,16 @@
       v-model="title"
       class="form-control centered"
     >
+    <input v-model="showHighmap" type="checkbox" /> Show highmap
     <highchart
+      v-if="showHighmap"
       :modules="['map']"
       :map="mapChart"
       :options="chartOptions"
       :update="watchers"
     />
-    <br>
-    Chart above should match the "highmap" below:
     <highmap
+      v-else
       :map="mapChart"
       :options="chartOptions"
       :update="watchers"
@@ -25,17 +26,26 @@
 // @ts-ignore
 import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json' assert { type: "json" };
 
+// To address highcharts error 21:
+import proj4 from 'https://cdn.jsdelivr.net/npm/proj4@2.7.5/+esm'
+
+if (typeof window !== 'undefined') {
+  window.proj4 = window.proj4 || proj4
+}
+//
+
 export default {
   data () {
     return {
+      showHighmap: false,
       title: 'Highmaps (Africa) basic demo',
       mapChart: {
         // It's important for mapName to match exactly
         // chartOptions.chart.map below
         // (since that's where the library renders to)
         mapName: 'africa',
-        mapData: AfricaMapData
-        // mapData: '/africa.geo.json' // Also works (if this is in static folder)
+        // mapData: AfricaMapData
+        mapData: '/africa.geo.json' // Also works (if this is in static folder)
       },
       watchers: ['options.title']
     }

@@ -8,8 +8,6 @@ import BrowserEnv from 'browser-env' // Gives us SVGElement
 import ComponentFactory, { extendProps } from '../lib/components.js'
 BrowserEnv()
 
-Vue.config.productionTip = false
-Vue.config.devtools = false
 const { serial: test } = ava
 /**
  * @param {number} ms
