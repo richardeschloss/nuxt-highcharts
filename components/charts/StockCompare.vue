@@ -9,10 +9,6 @@ export default {
       series: []
     }
   },
-  fetch () {
-    const symbols = ['goog', 'aapl', 'msft']
-    symbols.forEach(s => this.fetchData(s))
-  },
   computed: {
     chartOpts () {
       return {
@@ -49,6 +45,10 @@ export default {
         series: this.series
       }
     }
+  },
+  mounted () {
+    const symbols = ['goog', 'aapl', 'msft']
+    symbols.forEach(s => this.fetchData(s))
   },
   methods: {
     async fetchData (symbol) {

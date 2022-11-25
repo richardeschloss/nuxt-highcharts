@@ -10,11 +10,12 @@
 <script>
 import USMapData from '@highcharts/map-collection/countries/us/custom/us-small.geo.json'
 // To address highcharts error 21:
-import proj4 from 'proj4' // https://cdn.jsdelivr.net/npm/proj4@2.7.5/+esm'
+import proj4 from 'https://cdn.jsdelivr.net/npm/proj4@2.7.5/+esm'
 
 if (typeof window !== 'undefined') {
   window.proj4 = window.proj4 || proj4
 }
+//
 
 export default {
   data () {
@@ -29,9 +30,6 @@ export default {
   computed: {
     chartOptions () {
       return {
-        accessibility: {
-          enabled: false
-        },
         chart: {
           map: 'us-small',
           borderWidth: 1

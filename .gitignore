@@ -7,7 +7,7 @@ node_modules
 .DS_Store
 coverage
 dist
-public
 .nyc_output
 .env
 highcharts/plugin.compiled.js
+.output

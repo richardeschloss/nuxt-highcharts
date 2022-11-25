@@ -56,6 +56,7 @@ export default {
     }
   },
   computed: {
+    /** @returns {import('@/lib/types').ChartOptions} */
     chartOptions () {
       const ctx = this
       return {

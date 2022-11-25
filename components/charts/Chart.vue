@@ -4,14 +4,19 @@
       <div class="col-3-auto col-md-3">
         <div id="chartType">
           <label>Chart Type</label>
-          <b-form-select
-            v-model="chartType"
-            :options="chartTypes"
-          />
+          <select v-model="chartType" class="custom-select">
+            <option v-for="c in chartTypes" :key="c" :value="c">
+              {{ c }}
+            </option>
+          </select>
         </div>
         <div id="animationDuration">
           <label>Animation Duration</label>
-          <b-form-select v-model.number="animationDuration" :options="durations" />
+          <select v-model.number="animationDuration" class="custom-select">
+            <option v-for="d in durations" :key="d" :value="d">
+              {{ d }}
+            </option>
+          </select>
         </div>
         <div id="yAxis">
           <label>y-axis Title</label>
@@ -40,15 +45,18 @@
               v-model="seriesColor"
               type="color"
             >
-            <b-form-select v-else v-model="seriesColor" :options="colors" />
+            <select v-else v-model="seriesColor" class="custom-select">
+              <option v-for="c in colors" :key="c" :value="c">
+                {{ c }}
+              </option>
+            </select>
           </div>
           <p>Current color: {{ seriesColor }}</p>
         </div>
         <div id="sexy-bkg">
-          <b-form-checkbox v-model="sexy">
-            Make it sexy
-          </b-form-checkbox>  
-        </div>      
+          <input v-model="sexy" type="checkbox" class="form-check-input">
+          Make it sexy
+        </div>
         <div id="last-point-info">
           <label>Click a point to trigger event</label>
           <div>
@@ -58,11 +66,12 @@
         </div>
         <div id="caption">
           <label>Set chart caption</label>
-          <input v-model="caption" 
+          <input
+            v-model="caption"
             class="form-control centered"
             @focus="watchers = ['options.caption']"
             @blur="watchers = undefined"
-          />
+          >
         </div>
       </div>
       <div class="col-9-auto col-md-9">
@@ -90,17 +99,17 @@
           @chartLoaded="chartLoaded"
         />
         <div>
-          <b-input-group class="mt-3">
-            <b-form-input
+          <div class="input-group mb-3">
+            <input
               v-for="index in points.length"
               :key="index"
               v-model.number="points[index-1]"
-              class="centered"
               type="number"
+              class="text-center form-control"
               @focus="watchers = ['options.series']"
               @blur="watchers = undefined"
-            />
-          </b-input-group>
+            >
+          </div>
           <label>^^------------ Modify the series data (reactively) ------------^^</label>
         </div>
       </div>
@@ -110,7 +119,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       caption: 'Chart caption here',
       title: 'Basic Chart',
@@ -144,29 +153,31 @@ export default {
     }
   },
   computed: {
-    invertedColor() {
-      return (offset = 0) => '#' 
-      + ((parseInt(`0x${this.seriesColor.split('#')[1]}`) ^ 0xffffff) + offset)
+    invertedColor () {
+      return (offset = 0) => '#' +
+      ((parseInt(`0x${this.seriesColor.split('#')[1]}`) ^ 0xFFFFFF) + offset)
         .toString(16)
     },
-    chartOptions() {
+    chartOptions () {
       const ctx = this
       return {
         caption: {
           text: this.caption,
           style: {
             color: this.sexy ? this.invertedColor(0) : '#black'
-          },
+          }
         },
         chart: {
-          backgroundColor: this.sexy ? {
-            linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
-            stops: [
-                [0, this.seriesColor],
-                [0.5, '#ffffff'],
-                [1, this.seriesColor]
-            ]
-          } : '#ffffff',
+          backgroundColor: this.sexy
+            ? {
+                linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                stops: [
+                  [0, this.seriesColor],
+                  [0.5, '#ffffff'],
+                  [1, this.seriesColor]
+                ]
+              }
+            : '#ffffff',
           className: 'my-chart',
           type: this.chartType.toLowerCase()
         },
@@ -175,8 +186,8 @@ export default {
             cursor: 'pointer',
             point: {
               events: {
-                click() {
-                  ctx.$emit('pointClicked', this)
+                click () {
+                  ctx.doubleIt(this.x, this.y)
                 }
               }
             }
@@ -200,7 +211,7 @@ export default {
               : '')
         },
         subtitle: {
-	        style: {
+          style: {
             color: this.sexy ? this.invertedColor(0) : '#black'
           },
           text: `${this.subtitle}`
@@ -218,32 +229,27 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     const i = document.createElement('input')
     i.setAttribute('type', 'color')
     this.colorInputIsSupported = (i.type === 'color')
     this.chartTypes = this.$highcharts.chartTypes
     this.chartType = this.chartTypes[0]
     this.seriesColor = this.colorInputIsSupported ? '#6020cd' : this.colors[0]
-    this.$on('pointClicked', (evt) => {
-      this.$nextTick(() => {
-        this.doubleIt(evt.x, evt.y)
-      })
-    })
   },
   methods: {
-    chartLoaded(chart) {
+    chartLoaded (chart) {
       // eslint-disable-next-line no-console
       console.log('Chart Loaded! ')
       console.log('If you need to interact with the API directly, here you go!', chart)
-      console.log('Helpul tip: away from the docs? chart.__proto__ in dev tools will show you the methods:', chart.__proto__)  
+      console.log('Helpul tip: away from the docs? chart.__proto__ in dev tools will show you the methods:', chart.__proto__)
     },
-    doubleIt(x, y) {
+    doubleIt (x, y) {
       Object.assign(this.lastPointClicked, { x, y })
       this.lastPointClicked.timestamp = (new Date()).toUTCString()
       this.points[x] *= 2
     },
-    setBoth() {
+    setBoth () {
       this.title = 'New Title'
       this.points[5] = 0
       this.points = [...this.points]

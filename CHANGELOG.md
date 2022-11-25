@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.8] - 11-24-2022
+### Changed
+- Support for Nuxt3 stable release.
+
 ## [2.0.4] - 05-04-2022
 ### Added
 - USMap example with optional dependency proj4
