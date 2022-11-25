@@ -50,6 +50,7 @@ test('Features, (from module options)', async (t) => {
   const comp = Comp.mount('#app')
   await nextTick()
   t.true(comp.exporting)
+  Comp.unmount()
 })
 
 test('Features and options, as props', async (t) => {

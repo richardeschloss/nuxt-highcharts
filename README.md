@@ -85,7 +85,7 @@ The nuxt-highchart module adds a plugin which registers the following components
 | `animation` | Object | `{}` | Animation options [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update). This is where you can specify animation duration. |
 |`exporting` | Boolean | `moduleOptions.exporting || false` |Enable/disable the exporting feature globally |
 | `highcharts` | Object | `Highcharts` | The `Highcharts` instance to use, defaults to an instance imported by the plugin.
-| `map` | Object | `{ mapName: 'myMapName', mapData: [world.geo.json from https://unpkg.com/@highcharts/map-collection@1.1.3/custom/world.geo.json] } ` | Options for the [Highmap chart](https://www.highcharts.com/maps/demo). The `mapData` can be either the JSON or string pointing to the json file |
+| `map` | Object | `{ mapName: 'myMapName', mapData: [you provide this, see examples] } ` | Options for the [Highmap chart](https://www.highcharts.com/maps/demo). The `mapData` can be either the JSON or string pointing to the json file |
 | `modules` | Array\<String\> | Highcharts modules to load. These modules are in `node_modules/highcharts/modules/*.js` |
 | `more` | Boolean | false | Enable/disable highcharts-more. Some charts, such as polar and bubble, require this to be enabled. NOTE: Highcharts library deliberately leaves out the features to avoid bloating the library. Only specify `more` when you want those extra features |
 | `oneToOne` | Boolean | `true` | One-to-One option for [Chart.update](https://api.highcharts.com/class-reference/Highcharts.Chart#update) |

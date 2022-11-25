@@ -4,22 +4,33 @@
       v-model="title"
       class="form-control centered"
     >
-    <highmap :options="chartOptions" :update="watchers" />
+    <highmap
+      :options="chartOptions"
+      :map="{ mapData }"
+      :update="watchers"
+    />
   </div>
 </template>
 
 <script>
+// @ts-ignore
+import mapData from '@highcharts/map-collection/custom/world.geo.json' assert { type: "json" };
+console.log('mapData', mapData)
 
 export default {
-  data() {
+  data () {
     return {
+      mapData,
       title: 'Highmaps basic demo',
       watchers: ['options.title']
     }
   },
   computed: {
-    chartOptions() {
+    chartOptions () {
       return {
+        accessibility: {
+          enabled: false
+        },
         chart: {
           map: 'myMapName'
         },

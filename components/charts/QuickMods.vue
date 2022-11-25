@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json'
+// @ts-ignore
+import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json' assert { type: "json" };
 
 export default {
   data () {

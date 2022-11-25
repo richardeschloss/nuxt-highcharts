@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.0.8] - 11-24-2022
+### Changed
+- Support for Nuxt3 stable release.
+
 ## [2.0.1] - 10-24-2021
 ### Changed
 - Package type to "module"

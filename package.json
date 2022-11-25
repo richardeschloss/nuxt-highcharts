@@ -1,6 +1,6 @@
 {
   "name": "nuxt-highcharts",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "Highcharts for Nuxt",
   "repository": "ri0chardeschloss/nuxt-highcharts",
   "license": "MIT",
@@ -38,7 +38,7 @@
     "c8": "^7.10.0",
     "eslint": "^7.32.0",
     "jsdom-global": "^3.0.2",
-    "nuxt": "npm:nuxt3@latest"
+    "nuxt": "^3.0.0"
   },
   "optionalDependencies": {
     "@highcharts/map-collection": "^2.0.0"
