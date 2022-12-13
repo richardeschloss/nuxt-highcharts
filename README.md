@@ -16,12 +16,12 @@
 
 * Nuxt 2.x:
 ```bash
-npm i nuxt-highcharts
+npm i nuxt-highcharts@2
 ```
 
 * Nuxt 3.x:
 ```bash
-npm i nuxt-highcharts@next
+npm i nuxt-highcharts
 ```
 
 - These are the module's *required* dependencies:
