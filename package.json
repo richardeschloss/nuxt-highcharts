@@ -2,7 +2,7 @@
   "name": "nuxt-highcharts",
   "version": "3.0.8",
   "description": "Highcharts for Nuxt",
-  "repository": "ri0chardeschloss/nuxt-highcharts",
+  "repository": "richardeschloss/nuxt-highcharts",
   "license": "MIT",
   "type": "module",
   "contributors": [
