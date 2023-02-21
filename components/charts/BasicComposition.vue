@@ -3,7 +3,7 @@
     <label>Basic composition</label>
     <div><input v-model="chartOptions.title.text" class="form-control text-center"></div>
 
-    <highchart :options="chartOptions" exporting :modules="['exporting']" />
+    <highchart :options="chartOptions" :modules="['exporting']" />
   </div>
 </template>
 
