@@ -1,19 +1,22 @@
 <template>
   <div>
     <label>Basic composition</label>
-    <highchart :options="chartOptions" exporting :modules="['exporting']"/>
+    <div><input v-model="chartOptions.title.text" class="form-control text-center"></div>
+
+    <highchart :options="chartOptions" exporting :modules="['exporting']" />
   </div>
 </template>
 
 <script setup>
+import { reactive } from 'vue'
 const chartOptions = reactive({
   title: {
-    text: 'Some Text'
+    text: 'Some Text (Change Me!)'
   },
   series: [{
     data: [[0, 0], [1, 1]]
-  }]  
-});
+  }]
+})
 
 </script>
 
