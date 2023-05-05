@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <Navbar :charts="charts" @chartSelected="(chart) => selectedChart = chart" />
-    <!-- <component :is="selectedChart.name" /> -->
-    <ChartsBubbleChart />
+    <component :is="selectedChart.name" />
   </div>
 </template>
 
