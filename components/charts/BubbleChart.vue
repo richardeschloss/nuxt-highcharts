@@ -2,8 +2,9 @@
   <highchart :options="chartOpts" more />
 </template>
 
-<script>
-const chartOpts = {
+<script setup>
+import { reactive } from 'vue'
+const chartOpts = reactive({
   chart: {
     type: 'bubble',
     plotBorderWidth: 1,
@@ -23,6 +24,7 @@ const chartOpts = {
   },
 
   accessibility: {
+    enabled: false,
     point: {
       valueDescriptionFormat: '{index}. {point.name}, fat: {point.x}g, sugar: {point.y}g, obesity: {point.z}%.'
     }
@@ -126,12 +128,5 @@ const chartOpts = {
     ]
   }]
 
-}
-export default {
-  data () {
-    return {
-      chartOpts
-    }
-  }
-}
+})
 </script>
