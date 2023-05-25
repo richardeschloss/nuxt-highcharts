@@ -5,7 +5,7 @@
       v-model="title"
       class="form-control centered"
     >
-    <input v-model="showHighmap" type="checkbox" /> Show highmap
+    <input v-model="showHighmap" type="checkbox"> Show highmap
     <highchart
       v-if="showHighmap"
       :modules="['map']"
@@ -24,7 +24,7 @@
 
 <script>
 // @ts-ignore
-import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json' assert { type: "json" };
+// import AfricaMapData from '@highcharts/map-collection/custom/africa.geo.json' //  assert { type: "json" };
 
 // To address highcharts error 21:
 import proj4 from 'https://cdn.jsdelivr.net/npm/proj4@2.7.5/+esm'

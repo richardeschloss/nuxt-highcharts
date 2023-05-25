@@ -14,9 +14,10 @@
 
 <script>
 // @ts-ignore
-import mapData from '@highcharts/map-collection/custom/world.geo.json' assert { type: "json" };
+import mapData from '@highcharts/map-collection/custom/world.geo.json'
 // To address highcharts error 21:
-import proj4 from 'https://cdn.jsdelivr.net/npm/proj4@2.7.5/+esm'
+import proj4 from 'https://cdn.jsdelivr.net/npm/proj4@2.7.5/+esm' //  assert { type: "json" };
+console.log('mapData', mapData)
 
 if (typeof window !== 'undefined') {
   window.proj4 = window.proj4 || proj4
