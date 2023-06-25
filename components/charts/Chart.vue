@@ -118,6 +118,8 @@
 </template>
 
 <script>
+// @ts-nocheck
+/* eslint-disable no-console */
 export default {
   data () {
     return {
@@ -161,6 +163,7 @@ export default {
     chartOptions () {
       const ctx = this
       return {
+        accessibility: { enabled: false },
         caption: {
           text: this.caption,
           style: {
@@ -223,7 +226,7 @@ export default {
         },
         series: [{
           name: this.seriesName,
-          data: this.points,
+          data: Array.from(this.points),
           color: this.seriesColor
         }]
       }
@@ -239,9 +242,9 @@ export default {
   },
   methods: {
     chartLoaded (chart) {
-      // eslint-disable-next-line no-console
       console.log('Chart Loaded! ')
       console.log('If you need to interact with the API directly, here you go!', chart)
+      // eslint-disable-next-line no-proto
       console.log('Helpul tip: away from the docs? chart.__proto__ in dev tools will show you the methods:', chart.__proto__)
     },
     doubleIt (x, y) {
