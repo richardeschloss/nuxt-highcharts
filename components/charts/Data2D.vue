@@ -17,6 +17,7 @@ export default {
     }
   },
   computed: {
+    /** @returns {import('@/lib/types').ChartOptions} */
     chartOpts () {
       return {
         accessibility: { enabled: false },
@@ -24,8 +25,9 @@ export default {
           text: '2D Data'
         },
         series: [{
+          type: 'line',
           name: this.name,
-          data: this.points
+          data: Array.from(this.points)
         }]
       }
     }
@@ -33,6 +35,7 @@ export default {
   methods: {
     append () {
       this.points.push([this.cnt, Math.random() * 10])
+      // @ts-ignore
       this.$refs.chart2D.chart.series[0].update(this.chartOpts.series[0])
       this.cnt++
     }
