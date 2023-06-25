@@ -29,7 +29,7 @@
     "test:cov": "c8 ava --timeout=10m"
   },
   "dependencies": {
-    "highcharts": "^10.3.1"
+    "highcharts": "^11.1.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^6.0.1",
