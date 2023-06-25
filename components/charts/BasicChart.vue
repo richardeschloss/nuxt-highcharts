@@ -60,9 +60,11 @@ export default {
     chartOptions () {
       const ctx = this
       return {
+        accessibility: { enabled: false },
         caption: {
           text: this.caption,
           style: {
+            // @ts-ignore
             color: this.sexy ? this.invertedColor(0) : '#black'
           }
         },
@@ -102,6 +104,7 @@ export default {
         }],
         title: {
           style: {
+            // @ts-ignore
             color: this.sexy ? this.invertedColor(0) : '#black'
           },
           text: `${this.title} ` +
@@ -110,19 +113,22 @@ export default {
               : '')
         },
         subtitle: {
-	        style: {
+          style: {
+            // @ts-ignore
             color: this.sexy ? this.invertedColor(0) : '#black'
           },
           text: `${this.subtitle}`
         },
         legend: {
           itemStyle: {
+            // @ts-ignore
             color: this.sexy ? this.invertedColor(0) : '#black'
           }
         },
         series: [{
+          type: 'line',
           name: this.seriesName,
-          data: this.points,
+          data: Array.from(this.points),
           color: this.seriesColor
         }]
       }
