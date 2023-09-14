@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [3.1.1] - 09-14-2023
+### Fixed
+- "more" feature issue
 ## [3.0.8] - 11-24-2022
 ### Added
 - highcharts LTS (10.3.1)
