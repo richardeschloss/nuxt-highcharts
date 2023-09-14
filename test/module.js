@@ -17,6 +17,6 @@ test('Module: adds template and plugin', async (t) => {
   t.true(tmpl0.getContents().length > 0)
   t.is(tmpl1.src, resolve(__dirname, 'components.js'))
   t.is(tmpl1.filename, 'nuxt-highcharts.components.js')
-  t.is(plugin0.src, resolve(__dirname, 'plugin.js'))
+  t.is(resolve(plugin0.src), resolve(__dirname, 'plugin.js'))
   t.is(nuxt.options.vite.optimizeDeps.include[0], 'highcharts')
 })
