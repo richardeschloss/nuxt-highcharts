@@ -14,15 +14,8 @@
 
 1. Add `nuxt-highcharts` dependency to your project
 
-* Nuxt 2.x:
 ```bash
-npm i nuxt-highcharts@2
-```
-
-* Nuxt 3.x:
-```bash
-npm i nuxt-highcharts # to work with highcharts 10.x
-npm i nuxt-highcharts@next # to work with highcharts 11.x
+npm i nuxt-highcharts
 ```
 
 NOTE: if working with highcharts 11, you need to remember to convert your data from the `Proxy` type to a type supported by Highcharts. For example, if you have reactive data `this.points`, you'll need to set the Highcharts data with something like: `Array.from(this.points)`
